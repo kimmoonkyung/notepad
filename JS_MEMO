@@ -1,0 +1,150 @@
+-- node js 확인
+node -v
+
+-- node 실행
+node 파일명
+
+-- Expression
+표현식은 값을 만들어내기 때문에 함수의 인자로 사용할 수 있다.
+
+-- Statement
+1. 하나 혹은 여러개의 표현식이 모여 문장을 이룬다.
+2. 모든 표현식은 문장이 될 수 있다.
+3. 문장의 끝에는 세미콜론을 붙인다.
+4. 한 줄에 여러 문장을 적을 경우, 세미 콜론으로 문장을 구분한다.
+5. 마지막 문장은 세미 콜론을 붙이지 않아도 문제가 없다.
+6. 마지막 문장의 결과가 반환 된다.
+
+-- Identifier (식별자)
+코드 내의 변수, 함수, 혹은 속성을 식별하는 문자열
+    ex) var name = 'Mark';
+        function hello() {}
+        var person = {name: 'Mark', age: 37};
+    대소문자를 구분한다.
+
+-- 변수와 상수
+상수 = const
+변수 = let
+    기본적으로 const를 사용하되, 재할당이 필요한 경우에 let을 사용한다.
+
+-- scope (변수의 유효 범위)
+
+
+-- Hoisting (호이스팅)
+    > 함수먼저
+    function hello() {
+        console.log('hi');
+    }
+    hello();
+
+    > 함수의 호출을 먼저 --> 호이스팅, 아래의 함수를 바로 위에서 호출 할 수 있는 현상 (아래 있는 선언(만)을 끌어 올린다. )
+    hello2();
+    function hello2() {
+        console.log(hello2);
+    }
+
+    > 호이스팅 예제
+    age = 6;
+    age++;
+    console.log(age);
+    var age;
+
+    > 호이스팅 예제2
+    console.log(name); // undefined
+    name = 'Mark';
+    console.log(name); // Mark
+    var name;
+    > 호이스팅 예제2-1
+    console.log(name); // undefined
+    name = 'Mark';
+    console.log(name); // Mark
+    var name = '하이';
+
+    > 호이스팅 예제3
+    console.log(name); // not defined --> ERROR
+    name = 'MARK';
+    console.log(name);
+    let name;
+
+-- 템플릿 스트링 es6
+const a = `${변수} 스트링`;
+-- Symbol 고유한 값
+const a = Symbol();
+const b = Symbol(33);
+const c = Symbol('Mark');
+const d = Symbol('Mark');
+console.log (c==b) // false (typeOf -> Symbol)
+
+-- 논리 연산자
+&& -> and 
+|| -> or
+! -> not (반대)
+
+-- for of // for in
+for of -> iterable (배열 등)
+for in -> 모든 프로퍼티
+
+-- arrow function (es 6)
+    () => {} 
+    const hello1 = () => { console.log("arrow function"); };
+
+    const hello2 = (name) => { console.log(name); };
+    const hello2 = name => { console.log(name); }; --> 매개변수가 한개면 괄호 생략 가능
+
+    const hello3 = (name, age) => { console.log(name, age) };
+
+    const hello4 = name => { return `hello4 ${name}` };
+
+    arrow function 에서는 this가 생기지 않는다.
+    따라서 arrow function은 생성자로 사용하는것이 불가하다.
+
+-- prototype (프로토타입)
+쉽게 생각해서 객체에 내장된 기능이라 이해하면 될 것 같다.
+
+-- class (클래스)
+    > 선언적 방식
+    class A {}
+    > class 표현식을 변수에 할당
+    const B = class {};
+    > 선언적 방식이지만 호이스팅은 일어나지 않는다.
+    new C();
+    class C {} -> C is not defined
+
+-- constructor (생성자)
+    class A {
+        constructor() {
+            console.log("생성자");
+        }
+    }
+    class B {
+        constructor(name, age){
+            console.log("호출", name, age);
+        }
+    }
+    console.log(new B("덕배",29)); // 호출, 덕배, 29
+    console.log(new B()); // 호출, undefinded, undefined
+
+-- 멤버변수
+    class A {
+        constructor(name, age){
+            this.name = name;
+            this.age = age;
+        }
+    }
+    console.log(new A("덕배", 27)); // A { name : '덕배', age : 27 }
+
+    class B {
+        name;
+        age;
+    } // X
+
+    class C {
+        name;
+        age;
+        constructor(name, age){
+            this.name = name;
+            this.age = age;
+        }
+    } // O
+
+-- Promise 
