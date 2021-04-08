@@ -373,7 +373,8 @@ sessionStorage에 저장된 데이터는 세션이 끝나면(브라우저 종료
 
 -- 비구조 할당 (es6) === 객체 구조 분해
 const functionName = (parameter) => { retrun `${parameter.value} ${parameter.value1} ${parameter.value2}` };
-    > const functionName = (parameter) => { /* const functionName = ({parameter}) => { 로도 사용 가능하다. */
+    > const functionName = (parameter) => { 
+   /* const functionName = ({parameter}) => { 로도 사용 가능하다. */
                                             const { value, value1, value2 } = parameter; 
                                             return `${value} ${value1}`;
                                         }
@@ -513,10 +514,128 @@ const counts = alphabets.reduce((acc, cur) => {
 console.log(counts);
   //{a: 3, b: 1, c: 2, d: 1, e: 1}
   
+/* 배열 문제 */
+    > 숫자 배열이 주어졌을 때 10보다 큰 숫자의 갯수를 반환하는 함수를 만드세요.
+        1. filter 활용
+        function constBiggerThanTen(numbers) {
+            const result = numbers.filter(item => item > 10);
+            return result.length;
+        }
+        const count = constBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+            console.log(count); // 5
+        >> return numbers.filter((item) => item > 10).length; 로 줄일 수 있다.
 
+        2. map 활용
+        function constBiggerThanTen(numbers) {
+            let count = 0;
+            numbers.map((item) => {
+                if (item > 10) {count++;}
+            });
+            return count;
+        }
+        const count = constBiggerThanTen([1, 2, 3, 5, 10, 20, 30, 40, 50, 60]);
+            console.log(count); // 5
 
+        3. reduce 활용
+        function countBiggerThanTen(numbers) {
+            return numbers.reduce((acc, current) => {
+                if (current > 10) {
+                    return acc + 1;
+                } else {
+                    return acc;
+                }
+            }, 0);
+        }
 
+-- 객체, 생성자, 프로토타입
+function Beast(type, name, sound) {
+  this.type = type;
+  this.name = name;
+  this.sound = sound;
+  // this.say = function () {
+  //   console.log(this.sound);
+  // };
+}
 
+Beast.prototype.say = function () {
+  console.log(this.sound);
+};
 
+// 생성자
+function Dog(type, name, sound) {
+  Beast.call(this, type, name, sound);
+}
+Dog.prototype.say = Beast.prototype.say;
 
--- ******************************* [for in / for of], this, scope, promise, axios 내용 정리 필, 배열 내장 함수 reduce.. 대충 알아먹었는데 한 번더 공부하자.
+const dog = new Dog("짐승", "승내", "닥쳐!!!");
+console.log(dog); 
+//Dog {type: "짐승", name: "승내", sound: "닥쳐!!!", say: ƒ (), constructor: Object}
+
+dog.say();
+
+-- 클래스 문법 (ES6)
+    > 자바와 비슷하다.
+class Beast {
+  constructor(type, name, sound) {
+    this.type = type;
+    this.name = name;
+    this.sound = sound;
+  }
+
+  say() {
+    console.log(this.sound);
+  }
+}
+//console.log(Beast.prototype.say);
+
+class Dog extends Beast {
+  constructor(name, sound) {
+    super("짐승", name, sound);
+    // 상속 받은 클래스의 생성자를 호출한다.
+  }
+}
+
+const dog = new Dog("숭내", "닥쳐!!!!");
+dog.say();
+------ 연습
+class Food {
+  constructor(name) {
+    this.name = name;
+    this.brands = [];
+  }
+
+  addBrand(brand) {
+    this.brands.push(brand);
+  }
+
+  print() {
+    console.log(`${this.name}을(를) 파는 음식점들: `);
+    console.log(this.brands.join(", "));
+  }
+}
+
+const pizza = new Food("핏짜");
+pizza.addBrand("휫자스꾸");
+pizza.addBrand("피자스쿨");
+
+const chicken = new Food("치킨");
+chicken.addBrand("BHC");
+
+pizza.print();
+// 핏짜을(를) 파는 음식점들:
+// 휫자스꾸, 피자스쿨
+chicken.print();
+// 치킨을(를) 파는 음식점들:
+// BHC
+
+-- Truthy, Falsy
+Falsy 한 값
+!undefined / !null / !0 / !'' / !NaN / !false
+> true
+
+를 제외한 값들은 Truthy 한 값이다.
+ex)
+!3 / !'hello' / !['arr'] / ![] / !{}
+> false
+
+-- ******************************* 프로토타입, [for in / for of], this, scope, promise, axios 내용 정리 필, 배열 내장 함수 reduce.. 대충 알아먹었는데 한 번더 공부하자.
