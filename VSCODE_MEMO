@@ -21,3 +21,6 @@ shift + cmd + k
        (git push origin master >> 탭 눌러서 확인해보기 >>>> 현재 디렉토리 기준 git push notepad HEAD >>> 하니깐 올라감.)
        vs code 
         > 상단 ... 클릭 > Pull, Push > Push to 클릭
+
+-- react 미사용 import 제거
+cmd + .
