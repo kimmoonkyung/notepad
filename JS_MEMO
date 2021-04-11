@@ -31,16 +31,38 @@ node 파일명
 
 
 -- scope (변수의 유효 범위)
+    > Global Scope
+
+
+    > Function Scope
+
+
+    > Block Scope
+
+const value = "hello"; // global Scope
+function myFnc() {
+  console.log("myFnc : ");
+  console.log(value); // global Scope 'hello'
+}
+function otherFnc() {
+  console.log("otherFnc : ");
+  const value = "bye"; // function Scope
+  console.log(value); 'bye'
+}
+console.log("globval scope : ");
+console.log(value); // global Scope  'hello'
 
 
 -- Hoisting (호이스팅)
+호이스팅, 아래의 함수를 바로 위에서 호출 할 수 있는 현상 (아래 있는 선언(만)을 끌어 올린다. )
+var는 호이스팅이 발생한다, let과 const는 호이스팅이 발생하지 않는다.
+
     > 함수먼저
     function hello() {
         console.log('hi');
     }
     hello();
-
-    > 함수의 호출을 먼저 --> 호이스팅, 아래의 함수를 바로 위에서 호출 할 수 있는 현상 (아래 있는 선언(만)을 끌어 올린다. )
+    > 함수의 호출을 먼저 
     hello2();
     function hello2() {
         console.log(hello2);
@@ -384,6 +406,69 @@ const { key } = parameter;
         console.log(name); // 승래
         로도 사용이 가능 하다.
 
+    > 다른 예제 (btn 클릭)
+    const number = document.getElementById("number");
+    // const increase = document.getElementById("increase");
+    // const decrease = document.getElementById("decrease");
+    // 를 비구조화 하여
+    const buttons = document.querySelectorAll("button");
+    const [increase, decrease] = buttons;
+    // 로 사용 할 수도 있다.
+    console.log(buttos);
+        > NodeList {0: HTMLButtonElement, 1: HTMLButtonElement, entries: ƒ entries(), keys: ƒ keys(), values: ƒ values()…}
+    increase.onclick = () => { 
+        const current = parseInt(number.innerText, 10);
+        number.innerText = current + 1;
+    };
+    decrease.onclick = () => {
+        const current = parseInt(number.innerText, 10);
+    n   umber.innerText = current - 1;
+    };
+
+
+--------------------------------------------
+> promise! (vlpt)
+비동기 작업을 좀 더 편하게 사용할 수 있도록 es6 에 도입 된 것.
+    > 기본 사용법
+    const myPromise = new Promise((resolve, reject) => { ... })
+        > resolve 는 성공시 호출, reject 는 실패시 호출
+
+    > 예제
+    function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    const getDog = async () => {
+        await sleep(1000);
+        return "짐승내";
+    };
+
+    const getBeast = async () => {
+        await sleep(3000);
+        return "짐승균";
+    };
+
+    async function process() {
+        // const dog = await getDog();
+        // console.log(dog);
+        // const beast = await getBeast();
+        // console.log(beast);
+        // 를 한 번에 처리하기
+
+        // const results = await Promise.all([getDog(), getBeast()]);
+        // const dog = results[0];
+        // const beast = results[1];
+        // 를 비구조화 할당
+        // const [dog, beast] = await Promise.all([getDog(), getBeast()]);
+        // console.log(dog);
+        // console.log(beast);
+
+        // race
+        // const first = await Promise.race([getDog(), getBeast()]);
+        // console.log(first); // 짐승내
+    }
+
+
 -- ************** 배열 내장 함수
 const obj = [
     {
@@ -637,5 +722,142 @@ Falsy 한 값
 ex)
 !3 / !'hello' / !['arr'] / ![] / !{}
 > false
+
+-- 단축 평가 논리 계산법
+    > &&
+true && 'hello' // hello
+false && 'hi' // false
+
+true면 우측 값이 return
+falsy한 값은 좌측 값이 return 된다.
+    > ||
+true || 'helo' // true 
+false || 'good' // good 
+
+truthy면 좌측 값이 return 되고
+falsy한 값은 우측 값이 return.
+
+    > 조건문 등 리팩토링 시 유용하게 사용할 수 있을 것 같다.
+
+-- 함수의 기본 파라미터
+파라미터에 = 을 사용하여 기본 값을 넣어 줄 수 있다.
+ex) function exam (a = 1){ ... }
+
+-- includes
+array.includes(text);
+    > array에 text 가 존재하면 true, 아니면 false를 리턴.
+
+-- 스프레드 spread
+const people = {
+  name: "승래"
+};
+const beastPeople = {
+  ...people,
+  // name: "승래"
+  attribute: "짐승"
+};
+const gayPeople = {
+  ...beastPeople,
+  // name: "승래"
+  attribute: "게이"
+};
+... 연산자는 객체의 속성을 복붙한다.
+
+-- 레스트 rest
+const people = {
+  name: "승래",
+  attribute: "짐승",
+  color: "purple"
+};
+const { attribute, ...rest } = people;
+console.log(attribute); // 짐승
+console.log(rest); // {name: "승래", color: "purple"}}
+
+    > spread는 퍼뜨려주고, rest는 모아준다.
+
+// function sum(a, b, c, d, e, f, g) {
+//   return a+b+c;
+// }
+// 이런코드를
+function sum(...rest) {
+  return rest.reduce((acc, cur) => acc + cur, 0);
+}
+console.log(sum(1,2,3,4,5));
+// 이렇게 
+  // sum(...array); 로도 사용이 가능하다.
+
+// 함수에 n개의숫자들이 파라미터로 주어졌을 때, 그 중 가장 큰 값을 알아내자.
+    > forEach
+function max(...rest) {
+  let maxCnt = 0;
+  rest.forEach((num) => {
+    if(num > maxCnt){ maxCnt = num; }
+  });
+  return maxCnt;
+}
+const result = max(1, 2, 3, 4, 10, 5, 6, 7);
+console.log(result); // 10
+    > reduce 풀이
+    function max(...numbers) {
+        return numbers.reduce(
+        // acc 이 current 보다 크면 결과값을 current 로 하고
+        // 그렇지 않으면 acc 가 결과값
+        (acc, current) => (current > acc ? current : acc),
+        numbers[0]
+    );
+    }
+
+-- 모달 modal 예제
+> js
+    const open = document.getElementById("open");
+    const close = document.getElementById("close");
+    const modal = document.querySelector(".modal-wrapper");
+    open.onclick = () => {
+        modal.style.display = "flex";
+    };
+    close.onclick = () => {
+        modal.style.display = "none";
+    };
+
+> HTML
+    <button id="open">모달</button>
+    <div class="modal-wrapper" style="display: none;">
+      <div class="modal">
+        <div class="modal-title">짐승내다!</div>
+        <p>짐승내와 짐승균은 커플입니다.</p>
+        <div class="close-wrapper">
+          <button id="close">닫기</button>
+        </div>
+      </div>
+    </div>
+
+> css
+    .modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .modal {
+    background: white;
+    padding: 24px 16px;
+    border-radius: 4px;
+    width: 320px;
+    }
+
+    .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    }
+
+    .close-wrapper {
+    text-align: right;
+    }
 
 -- ******************************* 프로토타입, [for in / for of], this, scope, promise, axios 내용 정리 필, 배열 내장 함수 reduce.. 대충 알아먹었는데 한 번더 공부하자.
