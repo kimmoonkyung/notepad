@@ -251,4 +251,34 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
   // 초기화 버튼 클릭시 ref 설정한 input 으로 포커스 이동
 
 -- 배열 렌더링 하기
+  function Users( { user } ) {
+    return (
+      <div>
+        <b>{user.name}</b> <span>({user.email})</span>
+      </div>
+    )
+  }
+  function UserList() {
+    const users = [
+      {id : 1, name: '승내', email: '1@mail.com'},
+      {id : 2, name: '짐승내', email: '2@mail.com'}
+    ]
+    return (
+      <div>
+        { 
+          users.map( (user,idx) => (<Users user={user} key={idx}/>) ) 
+          // "(user, idx)" 파라미터를 가져와서 "=>" Users 라는 컴포넌트를 렌더링 해줄것("(<Users user={user} />)")
+          // idx는 "key={idx}" key props로 사용한다.
+            > 미사용 시 child in a list should have a unique "key" prop. > 고유값을 key 로 사용해줘야함.
+              > ex) "key={user.id}"
+          // key가 없다면 비효율적인 렌더링을 한다.
+        }
+      </div>
+    )
+  }
+
+-- useRef 로 컴포넌트 안의 변수 만들기
+  컴포넌트가 리렌더링 될 때마다 기억할 수 있는 값을 관리할 때도 사용할 수 있다.
+    > ex) setTimeout, setInterval, 외부라이브러리를 사용해서 생성된 인스턴스를 담을때, scroll 위치 등 다양하게 사용한다.
+    > useRef로 관리하는 값은 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
   
