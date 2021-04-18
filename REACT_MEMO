@@ -282,3 +282,86 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
     > ex) setTimeout, setInterval, 외부라이브러리를 사용해서 생성된 인스턴스를 담을때, scroll 위치 등 다양하게 사용한다.
     > useRef로 관리하는 값은 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
   
+-- 배열에 항목 추가하기
+  // App.js 에서 4개의 props를 받아온다.
+  function CreateUser( {username, email, onChange, onCreate} ) {
+    > App.js
+      <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
+      > {username}, {email} -> "inputs" 로 관리
+        const [inputs, setInputs] = useState({
+          username: '',
+          email: '',
+        });
+        const { username, email } = inputs;
+      > {onChange} -> "e(이벤트)"를 받아와서 setInputs(useState) 사용. -> name과 value를 e.target에 담음 -> 
+        const onChange = (e) => {
+          const { name, value } = e.target;
+          setInputs({
+            ...inputs,
+            [name] : value,  // name값을 value로 덮어 씌우겠다. ex) name이 username(input)이면 username의 value 값을,
+          });
+        };
+      > {onCreate} -> 클릭시 "user" 객체 생성 후 setUsers(useState)에 "...users" 로 복사 해온 뒤 생성한 "user" 객체를 더 해주는 로직 -> 이후 setInputs를 통해 inputs들 값을 비워 준다.
+                        > 주의 할 점으로 객체를 복사해 올 땐, 기존의 배열을 건들지 않는다. push splice sort 같은 것은 사용 하지 않는다.
+        const onCreate = () => {
+          const user = {
+            id: nextId.current,
+            username,
+            email, // ...inputs 로 대체 가능
+          };
+          setUsers([...users, user]); //setUsers(users.concat(user)); 로 대체 가능
+          setInputs({
+            username: '',
+            email : '',
+          });
+          console.log(nextId.current);
+          nextId.current += 1;
+        }
+
+-- 배열에 항목 삭제하기
+  > App.js
+    const onRemove = (id) => {
+      console.log("삭제버튼 클릭 : " + id);
+      setUsers(users.filter(user => user.id !== id));
+    }
+    > return()
+      <UserList users={users} onRemove={onRemove}/>
+  > UserList.js
+    > User 컴포넌트
+      function User({ user, onRemove }) {
+        const {username, email, id} = user;
+        > return()
+          <button onClick={() => onRemove(id)}>삭제</button>
+          {/* <button onClick={onRemove(id)}>삭제</button -> 이렇게 사용하면 렌더링시점에 삭제된다. */}
+            > onClick 은 함수를 "() =>" 를 넣어서 사용해야함.
+
+-- 배열에 항목 수정하기
+  > App.js
+      const onToggle = (id) => {
+        console.log("수정버튼 클릭 : " + id);
+        setUsers( users.map( user => user.id === id ? { ...user, active: !user.active } : user ) );
+        // 파라미터로 가져온 id 값이 일치한다면 active 값을 바꿔준다.
+        // "users.map"의 파라미터를 "user"로 사용 하고 user.id의 값과 onToggle을 통해 가져온 id의 값이 일치한다면, 
+        // "? { ...user, active: !user.active }" "...user"로 객체를 복사해오고 ",active:" 로 active(boolean 값임.) 값은 반대로 바꿔준다. !user.active
+        // ": user" 일치하지 않는다면 기존의 값을 그대로 사용하겠다.
+      };
+  > UserList.js
+    > User 컴포넌트
+      function User({ user, onRemove, onToggle }) {
+        const {username, email, id, active} = user;
+      > return
+        <b 
+          style={{
+            color: active ? 'green' : 'black', // active값이 true 면 "green" false 면 "black"
+            cursor: 'pointer'
+          }}
+          onClick={ () => onToggle(id) }
+        >
+    > UserList 컴포넌트 onRemove 때와 마찬가지로
+      function UserList( {..... onToggle 추가 } )
+        > return ()
+          <div>
+            { users.map( (user) => ( <User user={user} key={user.id} onRemove={onRemove}onToggle={onToggle}/> ) ) }
+          </div>
+
+-- 
