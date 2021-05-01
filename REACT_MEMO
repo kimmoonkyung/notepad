@@ -364,4 +364,47 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
             { users.map( (user) => ( <User user={user} key={user.id} onRemove={onRemove}onToggle={onToggle}/> ) ) }
           </div>
 
--- 
+-- useEffect 사용하여 마운트언마운트 업데이트할 작업 설정.
+  
+
+-- useMemo
+  컴포넌트 최적화시 사용..
+
+-- useCallback
+  리렌더링시 컴포넌트 최적화
+    > 사용법
+      export default React.memo(컴포넌트);
+
+-- useReducer
+  // useState -> useReducer 로 변경
+  import React, { useReducer } from 'react';
+    > reducer 함수 생성
+      function reducer(state, action) {
+          switch (action.type) {
+              case 'INCREMENT' :
+                  return state + 1;
+              case 'DECREMENT' :
+                  return state - 1;
+              default:
+                  throw new Error('Unhandled action');
+          }
+      };
+    > useState 방식 변경
+      const onIncrease = () => {
+        setN(prevNumber => prevNumber + 1);
+      }
+        > useReducer
+          const [number, dispatch] = useReducer(reducer, 0);
+          const onIncrease = () => {
+              dispatch({
+                  type : 'INCREMENT'
+              })
+          }
+
+-- useReducer VS useState
+  정해진 답은 없다. 상황에 따라 불편할때도, 편할때도 있다.
+  예를들어 컴포넌트에서 관리하는 값이 하나, 혹은 단순한 값 (문자열, boolean, 숫자 등)이면 useState로 관리하는 것이 편할 것이다.
+  맘에 드는 방식을 사용 하면 될 것이다.
+  간단한거다 싶으면.. useState / 복잡할 것 같다.. 그럼 useReducer
+
+-- custom Hook
