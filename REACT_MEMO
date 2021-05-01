@@ -408,3 +408,21 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
   간단한거다 싶으면.. useState / 복잡할 것 같다.. 그럼 useReducer
 
 -- custom Hook
+
+-- contextAPI
+
+-- IMMER (개인적으로 맘에든다.)
+  불변성 관리
+    불변성을 해치는 코드를 작성해도 대신 불변성 유지를 해준다.
+  ex ) const arr = [ 
+                      { id: 1, text: 'hello'},{ id:2, text: 'bye'},{ id:3, text: '9ood'}
+                  ] 
+      const nextArr = produce(arr, draft => {
+          draft.push({id:4, text: '안녕'});
+          draft[0].text = draft[0].text + ' world';
+      });
+  성능 -> 유의미한 차이가 날정도로 느리다고 볼 순 없는 듯 하다.
+          구형 브라우저나 리액트 네이티브 환경에서는 이 기능(proxy)이 지원되지 않는다. -> 느려짐.
+
+-- 클래스형 컴포넌트
+  hooks 가 나오기 전까지 함수형 컴포넌트보다 기능이 잘 먹어서 사용함.
