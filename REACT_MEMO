@@ -426,3 +426,9 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
 
 -- 클래스형 컴포넌트
   hooks 가 나오기 전까지 함수형 컴포넌트보다 기능이 잘 먹어서 사용함.
+
+-- LifeCycle 메서드
+  https://react.vlpt.us/basic/25-lifecycle.html
+  https://codesandbox.io/s/hungry-river-5hgu5?file=/src/LifeCycleSample.js:1050-1055
+
+-- 
