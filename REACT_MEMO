@@ -431,4 +431,17 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
   https://react.vlpt.us/basic/25-lifecycle.html
   https://codesandbox.io/s/hungry-river-5hgu5?file=/src/LifeCycleSample.js:1050-1055
 
--- 
+-- componentDidCatch / Sentry
+    componentDidCatch(error, info){
+        console.log('에러 발생');
+        console.log({
+            error,
+            info
+        });
+        this.setState({
+            error: true,
+        })
+        if(process.env.NODE_ENV === 'production'){
+            Sentry.captureException(error, {extra: info});
+        }
+    }
