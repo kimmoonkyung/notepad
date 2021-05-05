@@ -1,3 +1,6 @@
+--설정
+cmd + ,
+
 --주석
 cmd + /
 
@@ -24,3 +27,42 @@ shift + cmd + k
 
 -- react 미사용 import 제거
 cmd + .
+
+-- Prettier
+.prettierrc 파일 생성
+{
+    trailingComma : "all",
+    tabWidth : 4,
+    semi : true,
+    singleQuote : true
+}
+    trailingComma
+        > 객체 만들 때 컴마 자동
+    tabWidth
+        > 들여쓰기
+    semi
+        > ; 세미콜론 자동
+    singleQuote
+        > 자동 '' 
+
+    > 포맷 단축키
+        opt + shift + f
+    > 저장시 포맷
+        설정 -> format on save 검색 -> ON
+
+-- ESLint 자바스크립트 문법 검사 도구
+    코딩 스타일을 통일시켜주는 도구랄까.
+
+-- Snippet 코드조각 ?
+    https://snippet-generator.app/
+        Description 설명
+        Tab trigger 단축키(핫키)
+        Your snippet 작성 코드
+            import React from 'react';
+            function ${TM_FILENAME_BASE}() {
+                return ()
+            }
+            export default ${TM_FILENAME_BASE};
+    
+    맥 상단 -> Code -> 기본설정 -> 사용자 코드 조각 -> javascriptreact.json -> 붙여넣기
+        > 참고) 하단에 Java Script 를 JavaScript React 로 바꿔야 함.
