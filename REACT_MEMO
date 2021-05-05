@@ -445,3 +445,29 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
             Sentry.captureException(error, {extra: info});
         }
     }
+
+
+-- scss 
+    classnames
+        > yarn add classnames
+          > import classNames from 'classnames'; 
+            > 혹은 import classNames from 'classnames/bind'; -> css module 을 좀 더 쉽게 사용 하게 해주는
+    .button{
+      &:hover{
+        > & 는 자기 자신을 가리킨다. 즉 여기서는 button
+      }
+    }
+
+-- ...rest props
+
+-- CSS Module
+  레거시 프로젝트에 리액트롤 도입 할 때,
+  CSS 클래스 네이밍 규칙 만들기 귀찮을 때
+  사용 하면 좋음.
+
+
+-- open color
+https://yeun.github.io/open-color/#gray
+-- react-icons
+htpps://react-icons.netlify.com
+yarn add react-icons
