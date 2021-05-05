@@ -4,6 +4,9 @@ cmd + ,
 --주석
 cmd + /
 
+--같은 단어 선택
+cmd + d (연타)
+
 --코드 맨 위 이동 및 맨 아래 이동
 cmd + 방향키 (윈도우에서는 Home, End 키 등으로 이동 됐었는데 MacOS는 그게 안 되어서 따로 메모함)
 
@@ -66,3 +69,4 @@ cmd + .
     
     맥 상단 -> Code -> 기본설정 -> 사용자 코드 조각 -> javascriptreact.json -> 붙여넣기
         > 참고) 하단에 Java Script 를 JavaScript React 로 바꿔야 함.
+
