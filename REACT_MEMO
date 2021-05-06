@@ -465,6 +465,13 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
   CSS 클래스 네이밍 규칙 만들기 귀찮을 때
   사용 하면 좋음.
 
+-- Styled-components
+  Tagged Template Literal
+    > 
+  yarn add styled-components
+
+
+  
 
 -- open color
 https://yeun.github.io/open-color/#gray
