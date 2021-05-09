@@ -365,7 +365,7 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
           </div>
 
 -- useEffect 사용하여 마운트언마운트 업데이트할 작업 설정.
-  
+  > 컴포넌트가 마운트 됐을 때 (처음 나타났을 때), 언마운트 됐을 때 (사라질 때), 그리고 업데이트 될 때 (특정 props가 바뀔 때)
 
 -- useMemo
   컴포넌트 최적화시 사용..
@@ -550,6 +550,9 @@ import styled from 'styled-components';
         )
       }
 
+    > 트랜지션 구현 transition
+    import styled, { keyframes } from 'styled-components';
+    Dialog.js
 
 
 
