@@ -466,12 +466,92 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
   사용 하면 좋음.
 
 -- Styled-components
-  Tagged Template Literal
-    > 
-  yarn add styled-components
+yarn add styled-components
+import styled from 'styled-components';
+  마켓 플레이스 vscode-styled-components 확장프로그램 설치
+
+  styled-components를 사용 하면 
+  스타일을 선언과 동시에 컴포넌트를 생성해 낼 수 있다.
+  *Tagged Template Literal을 사용하여 생성한다.
+    ex) const Example = styled.div`
+          weight: 100px;
+          height: 100px;
+          background: pink;
+        `
+    props를 받아서 설정도 가능하다.
+      ex) const Example = styled.div`
+            weight: 100px;
+            height: 100px;
+            background: ${props => props.color || 'black'};
+          `
+          function App() {
+              return <Example color="blue">
+          }
+
+  Polished 스타일 유틸 함수 사용
+    yarn add polished
+    import { darken, lighten } from 'polished';
+
+  ThemeProvider
+    import styled { ThemeProvider } from 'styled-components';
+      <ThemeProvider theme={{}}></ThemeProvider>
+
+  *styled-components 내 변수 사용
+    App.js
+      const palette = {
+        blue: '#228be6',
+        gray: '#496057',
+        pink: '#f06595'
+      }
+      function App() {
+        return( 
+                <ThemeProvider theme={{ palette }}> 
+                  ...
+                </ThemeProvider>
+              )
+      }
+    기존 코드(컴포넌트.js)
+      background: ${(props) => props.theme.palette.blue};
+        &:hover {
+            background: ${(props) => lighten(0.1, props.theme.palette.blue)};
+        }
+        &:active {
+            background: ${(props) => darken(0.1, props.theme.palette.blue)};
+        }
+    > ThemeProvider 사용 후 변경 코드(컴포넌트.js)
+      import styled, { css } from 'styled-components';
+      ...
+        ${props => {
+          const color = props.theme.palette.blue;
+          return css`
+            background: ${color};
+            $:hover {
+              background: ${lighten(0.1, color)};
+            }
+            $:active {
+              background: ${darken(0.1, color)};
+            }
+          `
+        }}
+    > default Props 설정
+      컴포넌트.defaultProps = {
+        color: 'blue',
+      }
+      > styled components 수정
+        기존 ${props => {
+                const color = props.theme.palette.blue; .....
+        수정 ${props => {
+                const color = props.theme.palette[props.color]; .....
+      function 컴포넌트({ children, color, ...rest }){
+        return (
+          <Styled컴포넌트 color={color} {...rest }>
+            {children}
+          </Styled컴포넌트>
+        )
+      }
 
 
-  
+
 
 -- open color
 https://yeun.github.io/open-color/#gray
