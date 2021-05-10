@@ -567,6 +567,13 @@ import styled from 'styled-components';
       }
     `;
 
+  > Context Api를 활용한 상태관리
+    TodoContext.js
+
+***API 연동
+  
+
+
 -- open color
 https://yeun.github.io/open-color/#gray
 -- react-icons
