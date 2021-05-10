@@ -555,6 +555,17 @@ import styled from 'styled-components';
     Dialog.js
 
 
+***TODO LIST 투두리스트 프로젝트
+  npx create-react-app 프젝명
+  yarn add styled-components react-icons
+
+  > 글로벌 스타일 지정
+    import { createGlobalStyle } from 'styled-components';
+    const GlobalStyle = createGlobalStyle`
+      body {
+        background: #e9ecef;
+      }
+    `;
 
 -- open color
 https://yeun.github.io/open-color/#gray
