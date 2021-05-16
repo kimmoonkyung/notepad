@@ -579,6 +579,191 @@ yarn add react-async
   > Context 활용한 비동기 작업 상태 관리
     UsersContext.js
 
+-- react-router
+yarn add react-router-dom
+
+-- SPA Single Page Application
+  라우팅을 클라이언트가 담당한다.
+  라우팅이란 ? 어떤 주소에 어떤 UI 를 보여줄지.
+  보통은 서버에서 처리하는 로직이지만 spa 에서는 클라이언트가 관리한다.
+
+  import { HashRouter } from 'react-router-dom';
+    index.js
+      > <HashRouter> 
+          ....
+        </HashRouter>
+          > url에 #(해시태그가 붙는다.)
+            > ex ) http://localhost:3000/#/
+  MemoryRouter
+    > url에 변화가 없다. (가상의 주소)
+
+  exact
+  <Route path="/" component={Home} exact />
+    > exact default 값 true
+      > exact 가 있으면 url이 path와 일치해야만 화면에 보여준다.
+
+  import { Route, Link } from 'react-router-dom';
+    Link
+      a 태그는 사용하지 않는다. 
+        a 태그를 사용하면 페이지를 새로 불러온다.
+
+  파라미터와 쿼리
+    파라미터
+    props "match" { match } 
+      > Route 컴포넌트에서 넣어주는 프롭스, 따로 설정할 필요 없이 자동으로 받아온다.
+        > const { username } = match.params;
+        > <Route path="/profiles/:username" component={Profile} />
+          > path대로 조회 > /profiles/kmk
+
+    쿼리
+    props "location"
+    { location } 
+      > http://localhost:3000/about?a=1
+        > {
+              "pathname": "/about",
+              "search": "?a=1",
+              "hash": ""
+          }
+        location은 이러한 오브젝트를 뱉어낸다.
+    qs라는 라이브러리를 사용하여 파싱한다
+      yarn add qs
+        import qs from 'qs';
+        const query = qs.parse(location.search, {
+            ignoreQueryPrefix: true, // <- ?를 걸러준다.
+        });
+          > http://localhost:3000/about?b=2&c=4
+            > {
+                  "b": "2",
+                  "c": "4"
+              }
+            qs를 사용하면 이러한 오브젝트를 뱉어낸다.
+      const detail = query.detail === 'true'; 
+        // -> query 안의 detail이라는 값이 true일때만 해당 값을 true로 하겠다. 
+        (문자열로 가져오기 때문에 'true'로 비교해야한다.)
+      const b = query.b; // -> http://localhost:3000/about?b=paka99
+      console.log(b); // -> paka99
+
+    SubRoute (서브 라우트)
+    Profiles.js
+    <h3>사용자 목록</h3>
+    <ul>
+        <li>
+            <Link to="/profiles/nsn">노승내</Link>
+        </li>
+        <li>
+            <Link to="/profiles/ask">짐승균</Link>
+        </li>
+    </ul>
+    <Route
+        path="/profiles"
+        exact
+        render={() => <div> {a} 사용자를 선택해주세요</div>}
+    />
+    <Route path="/profiles/:username" component={Profile} />
+
+  라우터 부가기능
+    > history 객체
+      {history} props 로 받아온다.
+
+      const goBack = () => {
+        history.goBack();
+          // goBack => 뒤로가기
+      };
+      const goHome = () => {
+          history.push('/');
+          // push => 특정경로 이동
+      };
+
+      const replactToHome = () => {
+          history.replace('/');
+          // goHome은 방문한 페이지를 기록에 남기지만
+          // replace는 남기지 않는다.
+      };
+
+      useEffect(() => {
+          console.log(history);
+          const unblock = history.block('나갈거임 ?');
+          return () => {
+              unblock();
+              // 컴포넌트가 언마운트 될 때
+              // 이탈 방지 하는 기능을 비활성
+              // alert 창 뜸.
+          };
+      }, [history]);
+
+    > withRouter
+      > 라우터 컴포넌트가 아닌 곳에서 match, location, history props 들을 사용할 수 있게 해줌.
+    
+    import { withRouter } from 'react-router-dom';
+    function WithRouterSample({ location, match, history }) {
+      return (
+              <div>
+                  <h4>location</h4>
+                  <textarea value={JSON.stringify(location, null, 2)} readOnly />
+                  <h4>match</h4>
+                  <textarea value={JSON.stringify(match, null, 2)} readOnly />
+                  <button onClick={() => history.push('/')}>홈으로 이동</button>
+              </div>
+          );
+      }
+      export default withRouter(WithRouterSample);
+      > withRouter match
+          현재 자신이 렌더링 된 위치를 기준으로 match 값을 받아옴.
+            > 위의 예제를 기준으로는 withRouter는 Profiles.js 에서 렌더링 되고 있고
+            > url parameter를 따로 받아오고 있지 않기 때문에 (App.js 에서)
+              {
+                "path": "/profiles",
+                "url": "/profiles",
+                "isExact": false,
+                "params": {}
+              } => match 오브젝트는 params를 빈객체로 뱉는다.
+            > Profiles.js 가 아닌 Profile.js 에서 렌더링한다면
+              {
+                "path": "/profiles/:username",
+                "url": "/profiles/ask",
+                "isExact": true,
+                "params": { "username": "ask" }
+              } => 정상적으로 받아옴.
+        withRouter
+          location은 어디에서 렌더링 되던 똑같은 정보를 가져오지만,
+          match는 렌더링 된 기준으로 가져온다.
+          조건부로 성공할 때 사용한다.
+            > ex) 로그인 성공 했을 때 특정경로, 실패 시 가만히있고 싶다. 같은
+
+    Switch
+    여러 라우트 중 가장 먼저 매칭 된 하나만 보여줌
+      > App.js
+        import { Route, Link, Switch } from 'react-router-dom';
+        <Switch>
+            <Route path="/" component={Home} exact={true} />
+            <Route path="/about" component={About} />
+            <Route path="/profiles" component={Profiles} />
+            <Route path="/history" component={HistorySample} />
+            <Route
+                    render={({ location }) => (
+                        <div>
+                            <h2>이 페이지는 존재하지 않습니다.</h2>
+                            <p>{location.pathname}</p>
+                        </div>
+                    )}
+                /> => 404 페이지 구현시 사용하면 좋을 듯 하다.
+        </Switch>
+        
+      NavLink
+      현재 주소와 일치한다면 스타일 바꾸기.
+      > Profiles.js
+        import { NavLink, Route } from 'react-router-dom';
+          <NavLink
+              to="/profiles/nsn"
+              activeStyle={{ background: 'black', color: 'white' }}
+          >
+              노승내
+          </NavLink>
+
+
+
+
+
 -- open color
 https://yeun.github.io/open-color/#gray
 -- react-icons
