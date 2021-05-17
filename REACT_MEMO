@@ -760,8 +760,181 @@ yarn add react-router-dom
               노승내
           </NavLink>
 
+      <Prompt>, <Redirect>
+      
+      useReactRouterHook 사용
+      yarn add use-react-router
 
+  ** Redux 리덕스
+  리액트 생태계에서 가장 사용률이 높은 상태 관리 라이브러리.
+  리덕스를 사용하면 컴포넌트의 상태 관리 로직들을 다른 파일로 분리시켜서
+  더욱 효율적으로 관리할 수 있으며 글로벌 상태 관리도 손 쉽게 할 수 있다.
+  
+  useReducer 와 유사하다.
+  
+  1. Context 사용과의 차이점
+    1. 미들웨어
+      1. 특정 조건에 따라 액션이 무시되게 만들 수 있다.
+      2. 액션을 콘솔에 출력하거나, 서버쪽에 로깅할 수 있다.
+      3. 액션이 디스패치 됐을 때 이를 수정해서 리듀서에게 전달되도록 할 수 있다.
+      4. 특정 액션이 발생했을 때 이에 기반하여 다른 액션이 발생되도록 할 수 있다.
+      5. 특정 액션이 발생했을 때 특정 자바스크립트 함수를 실행시킬 수 있다.
+      6. 비동기 작업을 더욱 체계적으로 관리 가능하다. (주사용 용도)
+    2. 유용한 함수와, Hooks를 지원 받을 수 있다.
+      ex) connect, useSelector, useDispatch, useStore 등...
+    3. 기본적인 최적화가 이미 되어 있다.
+    4. 하나의 커다란 객체에 넣어서 사용한다.
+      1. 매번 컨텍스트를 만드는 수고로움을 덜어준다.
+    5. 리덕스는 아주 유용한 개발자도구가 있다.
+      1. 현재 상태를 한눈에 볼 수 있다.
+      2. 지금까지 어떠한 변화가 있었는지 볼 수 있다.
+      3. 특정 시점으로 상태를 되돌릴 수도 있다.
+    6. 이미 사용중인 프로젝트가 많다.
 
+  2. 언제 써야하는가 ?
+      1. 프로젝트의 규모가 큰가 ?
+        Redux Y / Context API N
+      2. 비동기 작업을 자주 하는가 ?
+        Redux Y / Context API N
+      3. 리덕스가 편하게 느껴지는가 ?
+        Redux Y / Context API or MobX N
+
+  *리덕스에서 사용되는 키워드 숙지
+  1. 액션 (Action)
+    상태에 어떠한 변화가 필요할 때 액션이라는 것을 발생 시킨다.
+    액션 객체는 { type: 'ADD', data : { id:1, text:'추가추가' } } 이런 식으로 이루어져 있다.
+  2. 액션 생성함수 (Action Creator)
+    export function addTodo(data) {
+      return { type: 'ADD_TODO', data };
+    }
+      > 화살표 함수로도 만들 수 있다.
+        export const changeInput = text => ({
+          type: "CHANGE_INPUT",
+          text
+        });
+  3. 리듀서 (Reducer)
+    변화(상태를 바꿔주는)를 일으키는 함수. 두 가지 파라미터를 가져온다 (action, state)
+      1. switch (action.type) 에 따라 state 값을 변경해준다.
+      2. 불변성을 유지해줘야 함. (스프레드 연산자 사용 등)
+      3. default 로 반환 하는 것은 보통 에러를 발생시키는게 일반적이지만
+        리덕스의 리듀서는 기존의 state를 반환 시킨다.
+        리덕스를 사용 할 땐 여러개의 리듀서를 만들고 root reducer라는 것을 만들 수 있다.
+        ?
+  4. 스토어 (Stroe)
+    한 애플리케이션 당 하나의 스토어를 만들게 된다.
+    스토어에는 현재의 앱의 상태와, 리듀서가 들어있고 내장 함수 등이 들어 있다.
+    ( ex: dispatch[액션을 발생시키는 것] )
+    구독(subscribe)
+      > 스토어의 내장 함수 중 하나, 호출 할 때 파라미터로 특정 함수를 넣어주면
+      > 액션이 디스패치 될 때 마다 우리가 설정한 함수가 호출 된다.
+      > 스토어의 상태가 업데이트 될 때 마다 특정 함수를 호출 할 수 있다는 것.
+
+  *리덕스의 3가지 규칙
+  1. 하나의 애플리케이션엔 하나의 스토어가 있다.
+    스토어를 한개 이상 만들면 안 된다. (가능은 하나 권장되지 않는다.)
+    스토어가 여러개가 되면 개발자 도구를 제대로 활용하지 못한다.
+  2. 상태는 읽기전용이다. (불변성을 지켜야 한다.)
+    스프레드 연산자, concat, filter, map, slice 등 내장 함수 사용
+    좋은 성능을 지켜내기 위함.
+    불변성을 지켜야 컴포넌트들이 제대로 리렌더링 된다.
+  3. 변화를 일으키는 함수 리듀서는 순수한 함수여야한다.
+    리듀서 함수는 이전 상태와, 액션 객체를 파라미터로 받는다.
+    이전의 상태는 절대로 변경하지 않고, 변화를 일으킨 새로운 상태 객체를 만들어 반환.
+    똑같은 파라미터로 호출된 리듀서 함수는 언제나 똑같은 결과값을 반환해야 한다.
+    > 동일한 인풋 -> 동일한 아웃풋
+      > new Date(), Math.random(), axios.get() 사용 하면 안 됨.
+  
+  실습
+  yarn add redux
+
+  Ducks 패턴
+    // ducks 패턴을 사용할 땐,
+    // 액션타입 선언시 문자열 앞에 접두사를 붙인다.
+    // 다른 모듈과 중복되지 않게 하기 위함.
+
+    // 액션 생성 함수 작성시는 export 키워드를 붙인다.
+    // 내보 낸 뒤 불러와서 사용 할 것임.
+
+    // 루트 리듀서를 만들 때는 combineReducers를 불러와서 사용한다.
+      modules/index.js
+        import { combineReducers } from 'redux';
+        import counter from './counter';
+        import todos from './todos';
+
+        const rootReducer = combineReducers({
+            counter,
+            todos,
+        });
+
+        export default rootReducer;
+
+        리액트에 리덕스를 적용하자.
+          > 패키지 설치
+            yarn add react-redux
+          > src/index.js
+            import { Provider } from 'react-redux';
+            import { createStore } from 'redux'; 
+            import rootReducer from './modules';
+
+            const store = createStore(rootReducer);
+            console.log(store);
+            console.log(store.getState());
+
+            ReactDOM.render(
+                <Provider store={store}>
+                    <App />
+                </Provider>,
+                document.getElementById('root'),
+            );
+
+    /components/Counter.js
+      프레젠테이션 컴포넌트에서는 UI에 집중한다.
+      상수나 필요 한 값은 props로 받아와서 사용한다.
+
+    /containers
+      컨테이너 컴포넌트는 리덕스에 있는 상태를 조회하거나
+      액션을 디스패치할 수 있는 컴포넌트를 의미한다.
+        리액트 컴포넌트에서 리덕스를 연동할 땐, useSelector, useDispatch 훅을 사용 한다.
+        useSelector => 상태 조회 훅 
+        useDispatch => 액션 디스패치 
+      
+      // 상태를 조회 할때는 useSelector를 사용 한다.
+          import { useDispatch, useSelector } from 'react-redux';
+          import { decrease, increase, setDiff } from '../modules/counter';
+
+          function CounterContainer() {
+              // 상태를 조회 할때는 useSelector를 사용 한다.
+              const { number, diff } = useSelector((state) => ({
+                  // state => store.getState() 반환 객체
+                  number: state.counter.number,
+                  // number 값은 state > counter > number 값.
+                  diff: state.counter.diff,
+              }));
+
+              const dispatch = useDispatch();
+
+              const onIncrease = () => dispatch(increase());
+              const onDecrease = () => dispatch(decrease());
+              const onSetDiff = (diff) => dispatch(setDiff(diff));
+
+              return (
+                  <Counter
+                      number={number}
+                      diff={diff}
+                      onIncrease={onIncrease}
+                      onDecrease={onDecrease}
+                      onSetDiff={onSetDiff}
+                  />
+              );
+          }
+    
+    redux devtools
+    구글 크롬 웹스토어 다운로드 후
+    yarn add redux-devtools-extension
+    index.js
+      import { composeWithDevTools } from 'redux-devtools-extension';
+      const store = createStore(rootReducer, composeWithDevTools());
+    
 
 
 -- open color
