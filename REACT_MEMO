@@ -891,7 +891,7 @@ yarn add react-router-dom
       프레젠테이션 컴포넌트에서는 UI에 집중한다.
       상수나 필요 한 값은 props로 받아와서 사용한다.
 
-    /containers
+    /containers/CounterContainer.js
       컨테이너 컴포넌트는 리덕스에 있는 상태를 조회하거나
       액션을 디스패치할 수 있는 컴포넌트를 의미한다.
         리액트 컴포넌트에서 리덕스를 연동할 땐, useSelector, useDispatch 훅을 사용 한다.
@@ -935,6 +935,104 @@ yarn add react-router-dom
       import { composeWithDevTools } from 'redux-devtools-extension';
       const store = createStore(rootReducer, composeWithDevTools());
     
+  
+  **리덕스 미들웨어
+    리덕스가 지닌 핵심기능, mobx/contextAPI 와 비교 했을 때 차별화 될 강력한 기능
+    만약, 리덕스를 사용하는데 미들웨어를 사용하지 않는다면 그냥 contextApi나 useReducer를 사용 하는게 나을 수 있다.
+
+    미들웨어를 사용하면
+      액션 -> 미들웨어 -> 리듀서 -> 스토어
+      1. 액션이 디스패치 될 때 미들웨어에서 액션의 특정 조건에 따라 무시처리 되도록 할 수도 있다.
+      2. 액션이 리듀서에게 전달되기 전에 특정코드를 실행 할 수 있다.
+        > 액션을 처리하는 과정을 콘솔에 출력
+        > 리듀서에 전달되기 직전에 액션을 수정할 수도 있다.
+        > 어떤 액션이 디스패치 되었을 때 또다른 액션을 만들어서 새로 디스패치 할 수도 있다.
+      3. 리덕스에 관련 된 작업이 아니여도 뭐든 할 수 있다.
+        > 액션이 디스패치 되는 과정 중, 특정 조건에 따라 라우터에서 다른 곳으로 이동.
+        > 액션에 기반 해서 비동기 작업
+      4. 주로 비동기 작업을 처리할 때 사용
+        > API 요청
+      5. 일반적으로 만들어진 라이브러리 사용
+        > redux-thunk, redux-saga, redux-observalble, redux-promise-middleware
+
+    redux-logger / redux-thunk, redux-saga를 사용 할 것이다~
+
+  프로젝트 준비
+    yarn add redux react-redux
+      src/ module 디렉토리 생성
+        counter.js
+          // 타입
+          const INCREASE = 'counter/INCREASE';
+          const DECREASE = 'counter/DECREASE';
+
+          // 액션 생성 함수
+          export const increase = () => ({ type: INCREASE });
+          export const decrease = () => ({ type: DECREASE });
+
+          // 초기 상태
+          const initialState = 0;
+
+          // 리듀서
+          export default function counter(state = initialState, action) {
+              switch (action.type) {
+                  case INCREASE:
+                      return state + 1;
+                  case DECREASE:
+                      return state - 1;
+                  default:
+                      return state;
+              }
+          }
+
+          // 루트 리듀서 생성. modules/index.js
+          import { combineReducers } from 'redux';
+          import counter from './counter';
+          const rootReducer = combineReducers({ counter });
+          export default rootReducer;
+
+          // ** 프로젝트에 리덕스 적용
+            1. 프로바이더(react-redux)를 불러오고 스토어(redux)도 불러온다.
+              index.js
+              import { Provider } from 'react-redux';
+              import { createStore } from 'redux';
+              import rootReducer from './modules';
+              const store = createStore(rootReducer);
+            2. App 컴포넌트를 프로바이더로 감싸고 프롭스로 store를 넣어준다.
+
+          // 컴포넌트 작성 components/Counter.js
+            function Counter({ number, onIncrease, onDecrease }) {
+                return (
+                    <div>
+                        <h1>{number}</h1>
+                        <button onClick={onIncrease}>+1</button>
+                        <button onClick={onDecrease}>-1</button>
+                    </div>
+                );
+            }
+
+          // 컨테이너 작성 containers/CounterContainer.js
+            function CounterContainer() {
+              const number = useSelector((state) => state.counter);
+              const dispatch = useDispatch();
+
+              const onIncrease = () => {
+                  dispatch(increase());
+              };
+              const onDecrease = () => {
+                  dispatch(decrease());
+              };
+
+              return (
+                  <Counter
+                      number={number}
+                      onIncrease={onIncrease}
+                      onDecrease={onDecrease}
+                  />
+              );
+          }
+
+
+
 
 
 -- open color
