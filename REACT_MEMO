@@ -1074,6 +1074,42 @@ yarn add react-router-dom
             composeWithDevTools(applyMiddleware(logger)),
         );
 
+    2. 미들웨어 > redux-thunk 사용
+      리덕스 떵크 작동 원리
+        const thunk = store => next => action =>
+          typeof action === 'function'
+            ? action(store.dispatch, store.getState)
+            : next(action)
+        ;
+          사용 예시
+            > const getComments = () => (dispatch, getState) => {
+              // 이 안에서는 액션을 dispatch 할 수도 있고
+              // getState를 사용하여 현재 상태도 조회 할 수 있다.
+              const id = getState().post.activeId;
+
+              // 요청이 시작했음을 알리는 액션
+              dispatch({type: 'GET_COMMENTS'});
+
+              // 댓글을 조회하는 프로미스를 반환하는 getComments가 있다고 가정.
+              api
+                .getComments(id) // 요청!
+                .then(comments => dispatch({ type: 'GET_COMMENTS_SUCCESS', id, comments })) // 성공시
+                .catch(err => dispatch({ type: 'GET_COMMENTS_ERROR', error: err })); // 실패시
+              };
+              // 컴포넌트에서
+              dispatch(getComments());
+
+      리덕스 떵크 설치
+      yarn add redux-thunk
+      index.js
+        > import ReduxThunk from 'redux-thunk';
+          const store = createStore(
+              rootReducer,
+              composeWithDevTools(applyMiddleware(ReduxThunk, logger)),
+          ); // logger 는 뒤에 넣어 준다.
+      
+
+
 
 
 
