@@ -1031,9 +1031,43 @@ yarn add react-router-dom
               );
           }
 
+    리덕스 미들웨어 작성 예
+      > const middleware = store => next => action => {
+          // 하고 싶은 작업..
+          // 함수를 만드는 함수를 만드는 함수......
+        }
+          > function middleware(store){
+              retrun function (next) {
+                return function (action) {
+                  
+                }
+              }
+            }
+      > *next는 미들웨어에서 액션을 받아 왔을 때,
+      다음 미들웨어에게 액션을 전달 하는 함수
+      만약에 다음 미들웨어가 없다면 넥스트를 통해 리듀서에게 액션을 전달.
 
+    미들웨어 작성
+    myLogger.js
+      const myLogger = (store) => (next) => (action) => {
+          console.log(action);          // 액션 디스패치 될때 콘솔 출력
+          const result = next(action);  // 액션 다음 미들웨어 혹은 다음 리듀서에 전달 하겠다.
+          console.log('\t', store.getState());  // 액션이 리듀서에서 처리가 모두 된 후 그 다음 상태를 가져와서 콘솔에 출력.
+          return result;                // 컨테이너에서 디스패치 되었을 때
+      };
+      // 내보내줌.
+      export default myLogger;          // 이 과정이 미들웨어를 벌써 다 만든거다. 진짜 ?
 
+      > 스토어/리덕스에서 applyMiddleware를 불러온다. (index.js)
+        import { createStore, applyMiddleware } from 'redux';
+        // 작성한 미들웨어(myLogger)를 apllyMiddleware 함수에 불러와서 넣어줌.
+        const store = createStore(rootReducer, applyMiddleware(myLogger));
 
+    미들웨어 > redux-logger 사용 및 미들웨어와 DevTools 함께 사용
+    yarn add redux-logger
+    > index.js
+      import logger from 'redux-logger';
+      const store = createStore(rootReducer, applyMiddleware(logger));
 
 -- open color
 https://yeun.github.io/open-color/#gray
