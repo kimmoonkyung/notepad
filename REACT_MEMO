@@ -1063,11 +1063,20 @@ yarn add react-router-dom
         // 작성한 미들웨어(myLogger)를 apllyMiddleware 함수에 불러와서 넣어줌.
         const store = createStore(rootReducer, applyMiddleware(myLogger));
 
-    미들웨어 > redux-logger 사용 및 미들웨어와 DevTools 함께 사용
-    yarn add redux-logger
-    > index.js
-      import logger from 'redux-logger';
-      const store = createStore(rootReducer, applyMiddleware(logger));
+    1. 미들웨어 > redux-logger 사용 및 미들웨어와 DevTools 함께 사용
+      yarn add redux-logger
+      yarn add redux-devtools-extension
+      > index.js
+        import  { composeWithDevTools } from 'redux-devtools-extension'
+        import logger from 'redux-logger';
+        const store = createStore(
+            rootReducer, // logger를 composeWithDevTools에 넣어준다
+            composeWithDevTools(applyMiddleware(logger)),
+        );
+
+
+
+
 
 -- open color
 https://yeun.github.io/open-color/#gray
