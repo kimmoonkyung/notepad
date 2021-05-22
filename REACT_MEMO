@@ -1108,7 +1108,33 @@ yarn add react-router-dom
               composeWithDevTools(applyMiddleware(ReduxThunk, logger)),
           ); // logger 는 뒤에 넣어 준다.
       
+      redux-thunk Promise 다루기
+        참고) https://learnjs.vlpt.us/async/
+              http://bit.ly/MDNPromise
+      
+      // action 생성 함수, 생략 가능 -> thunk에서 직접 작성하여 디스패치하는 형태로 작성해도 상관 없음
+        module/posts.js
+          export const getPosts = () => async (dispatch) => {
+              // 요청이 시작 됨
+              dispatch({ type: GET_POSTS });
 
+              // API 호출
+              try {
+                  const posts = await postsAPI.getPosts();
+                  // 성공 했을 때
+                  dispatch({
+                      type: GET_POSTS_SUCCESS,
+                      posts,
+                  });
+              } catch (error) {
+                  // 실패 했을 때
+                  dispatch({
+                      type: GET_POSTS_ERROR,
+                      error: error,
+                  });
+              }
+          };
+      
 
 
 
