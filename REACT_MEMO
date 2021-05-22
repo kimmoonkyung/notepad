@@ -1135,8 +1135,19 @@ yarn add react-router-dom
               }
           };
       
-
-
+    redux-thunk promise 다루기 라우터 연동
+      yarn add react-router-dom
+      index.js
+        import { BrowerRouter } from 'react-router-dom';
+        // Provider 를 감싸준다.
+        ReactDOM.render(
+            <BrowserRouter>
+                <Provider store={store}>
+                    <App />
+                </Provider>
+            </BrowserRouter>,
+            document.getElementById('root'),
+        );
 
 
 
