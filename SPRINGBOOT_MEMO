@@ -1,0 +1,115 @@
+@Annotation
+    > Lombok
+        @Data
+        
+
+        @Entity
+
+            @Id
+
+            @GeneratedValue
+
+            @Column
+
+        @NoArgsConstructor
+        
+
+        @AllArgsConstructor
+
+    
+    > @RestController
+        @GetMapping
+        @PostMapping
+        @PatchMapping
+        @DeleteMapping
+
+    > @CrossOrigin
+
+
+
+-- todo-server
+    gradle 설정 (build.gradle)
+        plugin
+            id 'org.springframework.boot' version '2.4.2'
+            id 'io.spring.dependency-management' version('1.0.11.RELEASE')
+            id 'java'
+        dependencies
+            implementation('org.springframework.boot:spring-boot-starter-data-rest')
+            implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+            runtimeOnly('com.h2database:h2')
+            annotationProcessor('org.projectlombok:lombok')
+            compileOnly('org.projectlombok:lombok')
+            // 롬복은 플러그인도 설치해야 한다.
+            // 설치 후 활성화 까지.
+            testImplementation('org.springframework.boot:spring-boot-starter-test')
+        test
+            useJUnitPlatform()
+
+
+    Entity(model) 생성
+        @Data
+        @Entity
+        @NoArgsConstructor
+        @AllArgsConstructor
+            @Column
+
+    Repository 생성
+        @Repository
+        public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
+            // JpaRepository 를 상속 하고 제네릭으로
+            // 앞은 데이터베이스 테이블과 연결 될 객체인 엔티티,
+            // 뒤는 해당 객체의 id의 해당하는 필드 타입을 넣어준다.
+        }
+    
+    Service 생성
+        @Service
+        @AllArgsConstructor
+        public class TodoService {
+            private final TodoRepository todoRepository;
+    
+    Controller 생성
+        @Slf4j // log.info("STRING")
+        @CrossOrigin
+        @AllArgsConstructor
+        @RestController
+        @RequestMapping("/")
+        public class TodoController {
+            private final TodoService todoService;
+
+    TodoServerApplication
+        @SpringBootApplication
+        public class TodoServerApplication {
+            public static void main(String[] args) {
+                System.out.println("NICE 9OOD");
+                SpringApplication.run(TodoServerApplication.class, args);
+            }
+        }
+    
+    Test 코드 작성
+    // Mock 사용 이유
+    // 외부 시스템에 의존하지 않고 자체 테스트를 실행 할 수 있어야 하기 때문.
+    // 유닛 테스트는 네트워크나 DB가 연결 되지 않는다 하여 테스트가 실행이 불가하면 안 되기 때문에.
+    // 또 실제 DB를 사용하게 되면 테스트 내용이 그대로 반영 되기 때문.
+        TodoService [ Opt + Enter ] > 테스트 생성
+            import static org.mockito.Mockito.when;
+            import static org.mockito.ArgumentMatchers.any;
+
+            @ExtendWith(MockitoExtension.class)
+            class TodoServiceTest
+                @Mock
+                private TodoRepository todoRepository;
+
+                @InjectMocks
+                private TodoService todoService;
+        
+        TodoController
+            @WebMvcTest(TodoController.class)
+            class TodoControllerTest {
+
+                @Autowired
+                MockMvc mvc;
+
+                @MockBean
+                TodoService todoService;
+
+                private TodoEntity expected;
