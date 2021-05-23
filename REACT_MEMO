@@ -1149,6 +1149,24 @@ yarn add react-router-dom
             document.getElementById('root'),
         );
 
+    json-server
+    npx json-server ./data.json --port 4000
+
+    CORS 와 Webpack DevServer Proxy
+      현재 상황
+        webpack 개발 서버 http://localhost:3000/
+                 api 서버 http://localhost:4000/posts
+        cors에서는 이것을 따로 설정해줘야 webpack 개발 서버에서 api서버를 사용 할 수 있다.
+        json-server 는 이미 이것이 되어 있다.
+          Access-Control-Allow-Origin : *
+          Access-Control-Allow-Origin : http://localhost:3000
+        
+        Proxy 설정
+          > package.json
+            맨 아래 -> "proxy": "http://localhost:4000"
+          
+
+
 
 
 -- open color
