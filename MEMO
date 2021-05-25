@@ -20,8 +20,6 @@ npx는 프로그램을 임시로 설치하여 한번만 실행시키고 지우�
         1111 1011 (5에 대한 2의 보수)
  > 2의 보수 만드는 방법 (음수 만드는 방법) : 1의 보수를 취하고 나서 1을 더해 줌
 
-REST API
-https://meetup.toast.com/posts/92
 
 소켓 통신
     접속을 계속 유지하여, 데이터를 전달.
@@ -32,6 +30,30 @@ HTTP 통신
     불필요한 자원의 점유를 없애 다른 접속을 원활하게 하여 많은 데이터를 처리.
     데이터 요청 후 응답이 오면 연결은 끊어진다.
 
+
+
+REST API
+https://meetup.toast.com/posts/92
+
 HTTP - GET 메소드
     주소 창에 파라미터 노출.
     브라우저에서 주소에 대한 캐시가 이루어지므로, 정보를 얻을 때 사용.
+HTTP - POST 메소드
+    주소 창에 파라미터 노출 X.
+    주소 창에 사용자의 요청 사항이 노출 되지 않는다.
+    Get 방식에서는 주소 길이 제한이 있지만 Post는 그보다 길게 사용 가능(제한 존재)
+    브라우저가 주소 캐시를 하지 못 하는 특성이 있다.
+HTTP - PUT / PATCH 메소드
+    POST와 마찬가지로 BODY에 데이터가 들어 있으며, 주로 업데이트에 사용
+HTTP - DELETE 메소드
+    GET과 마찬가지로 주소에 파라미터가 들어가며, 데이터를 삭제 할 때 사용
+
+REST의 개념
+    HTTP 프로토콜에 있는 Method를 활용한 아키텍처 스타일.
+    HTTP 메소드를 통해서 Resource를 처리한다.
+    CRUD를 통한 Resource를 조작할 때 사용.
+        메소드      /        동작          / URL 형태
+        GET           조회 SELECT * FROM    /user/{id}
+        POST          생성 CREATE           /user
+        PUT / PATCH   수정 UPDATE / CREATE  /user
+        DELETE        삭제 DELETE           /user/{id}
