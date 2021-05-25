@@ -1,0 +1,11 @@
+mysql 설치
+    > brew update
+    > brew search mysql
+    > brew install mysql
+    > brew list
+        (home brew로 설치 된 오픈소스들은 /usr/local/Cellar에서 확인)
+mysql 실행 / 종료
+    > mysql.server start / stop
+        or > brew services start mysql / stop mysql
+mysql workbench 설치
+    > brew cask install mysqlworkbench
