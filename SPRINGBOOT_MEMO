@@ -29,6 +29,23 @@ JPA
     Entity
         JPA에서는 테이블을 자동으로 생성해주는 기능 존재.
     DB TABLE === JPA ENTITY
+
+    연관 관계 설정
+        관계     /   Annotation
+        일대일   /   @OneToOne
+        일대다   /   @OneToMany
+        다대일   /   @ManyToOne
+        다대다   /   @ManyToMany
+        Long이 아니라 객체로 연결한다.
+    
+    // LAZY = 지연로딩 , EAGER = 즉시로딩
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    // LAZY = select * from ITEM where id = ?
+        // 변수에 대해서 겟 메소드를 호출 하지 않는 이상 연관 관계가 설정 된 테이블에 대해서 셀렉하지 않겠다.
+    // EAGER = JOIN >> item.id = orderDetail.id
+        // 즉시 모든 것을 다 로딩 하겠다, 연관 관계가 설정 된 모든 테이블에 대해 조인이 일어난다.
+        // 1 : 1(@OneToOne)이나 @ManyToOne에 대해서 한건만 존재할 때 사용
+
 /***************************************************************************************/
 
 
@@ -65,7 +82,11 @@ TDD
         @AllArgsConstructor
             모든 아규먼트를 가지는 변수에 대해서 생성자를 추가
             생성자 자동 생성 어노테이션!
-    
+        @ToString
+            @Data로 생성된 투스트링을 제외한다.
+            ex) @ToString(exclude = {"필드1", "필드2"})
+
+
     @Repository
         따로 쿼리문을 작성하지 않아도 기본적인 CRUD 내장
         @Repository interface UserRepository extends JpaRepository<User, Long>{}
