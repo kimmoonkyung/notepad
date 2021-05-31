@@ -13,6 +13,9 @@ open .
 --새 탭 열기
 cmd + T
 
+--파일 복사
+cp orginal_file copied_file
+
 --파일, 디렉토리 삭제
 rm text.txt
 text.txt 파일 지우기.
