@@ -125,4 +125,31 @@ int age = 10;
         ex) var = ++num; //먼저 num 값이 1 증가 한 후 val 변수에 대입
             var = num++; //var 변수에 기존 num 값을 먼저 대입한 후 num 값 1 증가
 
+메소드 참조 표현식 ::
+람다 표현식에서만 사용 가능하고, [인스턴스]::[메소드명 or new] 로 사용함
+    ex) 
+    public class DoubleColon {
+        public static void main(String[] args) {
+            List<String> names = Arrays.asList("노충내", "짐승균");
+            names.forEach(x -> System.out.println(x));
+            -> 를 아래로 대체 가능하다.
+                names.forEach(System.out::println);
+        }
+    }
+    @Override
+    public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
+
+        OrderGroupApiRequest body = request.getData();
+        return orderGroupRepository.findById(body.getId())
+                .map(orderGroup -> {
+                        orderGroup
+                                .setRevAddress(body.getRevAddress())
+                                ;
+                        return orderGroup;
+                })
+                //.map(newOrderGroup -> orderGroupRepository.save(newOrderGroup)) 이걸 아래와 같이
+                .map(orderGroupRepository::save)        // 이런 식으로 사용 가능
+                .map(this::response)                    // 이런 식으로 사용 가능
+                .orElseGet(() -> Header.ERROR("없데이트!"));
+    }
 
