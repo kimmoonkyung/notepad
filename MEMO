@@ -57,3 +57,17 @@ REST의 개념
         POST          생성 CREATE           /user
         PUT / PATCH   수정 UPDATE / CREATE  /user
         DELETE        삭제 DELETE           /user/{id}
+
+도메인
+
+Multi-tier Architecture
+3-tier Architecture
+    > Presentation -> 사용자와 소통하는 부분    (Front-end)
+      Business -> 사용자와 소통한 결과          (Back-end)
+        > Layered Architecture
+            1. UI Layer
+                2. Application Layer
+                3. Domain Layer
+                4. Infrastructure Layer
+      Data Source -> 처리한것들이 저장 되는 곳  (DB)
+
