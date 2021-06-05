@@ -1,4 +1,4 @@
---Chapter 1. 스프링부트 생성 (maven)
+# Chapter 1. 스프링부트 생성 (maven)
     1. 기본설정 및 Dependency 설정(일단 Web 추가)
     2. 간단한 Rest API Controller 추가
         @RestController
@@ -13,7 +13,7 @@
     3. 스프링부트 실행
         > http://localhost:8080/api/hello
 
---Chapter 2. 리액트 생성
+# Chapter 2. 리액트 생성
     1. 스프링부트 설치 디렉토리 (ex com.example.demo면 )
        demo/ 디렉토리 터미널에서
        npm create-react-app '폴더명'
@@ -29,7 +29,7 @@
         > 터미널에서 curl http://localhost:3000/api/hello
             > 정상
 
---Chapter 3. 리액트의 App.js를 변경해서 Rest API의 값을 받고 출력하기.
+# Chapter 3. 리액트의 App.js를 변경해서 Rest API의 값을 받고 출력하기.
     1. App.js 수정
         import React, { useState, useEffect } from 'react'; /* useStae와 useEffect의 개념 확인 */
         import logo from './logo.svg';
@@ -66,8 +66,9 @@
        http://localhost:3000/
         > 정상
 
---Chapter 4. Spring-Boot와 React를 함께 패키징 하기
-    1. Maven으로 NPM 실행
+# Chapter 4. Spring-Boot와 React를 함께 패키징 하기
+>    1. Maven으로 NPM 실행
+> 
         pom.xml에 추가
             /* 디펜던시 (플러그인 or 디펜던시로 추가) */
             <dependency>
@@ -116,12 +117,15 @@
                     </execution>
                 </executions>
             </plugin>
-    2. 추가 후 maven 업데이트 후 빌드
+> 2. 추가 후 maven 업데이트 후 빌드
+> 
         com.exaple.demo 면 
         > /demo 터미널에서 ./mvnw clean install
-    2-1. 빌드 완료 구문 후 frontend/build/ 폴더 안에 여러가지 파일 생김
-    
-    3. Spring Boot JAR 파일 안에 프론트엔드 Build 파일 포함 시키기.
+        
+> 2-1. 빌드 완료 구문 후 frontend/build/ 폴더 안에 여러가지 파일 생김
+>
+> 3. Spring Boot JAR 파일 안에 프론트엔드 Build 파일 포함 시키기.
+        
         /* 플러그인 */
         <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
@@ -141,12 +145,14 @@
                 </execution>
             </executions>
         </plugin>
-    4. 마찬가지로 추가 후 빌드
-        com.exaple.demo 면 
-        > /demo 터미널에서 ./mvnw clean install
-    4-1. 2-1의 파일(frontend/build/)들이 target/classes/public 에도 생성됨.
+> 4. 마찬가지로 추가 후 빌드
+> 
+    com.exaple.demo 면 
+    > /demo 터미널에서 ./mvnw clean install
+        4-1. 2-1의 파일(frontend/build/)들이 target/classes/public 에도 생성됨.
 
-    5. 빌드 후 /demo/target/ 디렉토리에 jar 파일 생성
+> 5. 빌드 후 /demo/target/ 디렉토리에 jar 파일 생성
+> 
         /demo/target/
         > sudo java -jar aaa.jar
         > http://localhost:8080/
@@ -155,7 +161,7 @@
         > 백그라운드 실행
             > sudo nohup java -jar aaa.jar &
 
---마무리.
+# 마무리.
     1. frontend는 vscode에서 개발하고
     2. backend는 intelliJ에서 개발
     3. 후에 빌드
@@ -164,6 +170,6 @@
         java -jar aaa.jar
             >http://localhost:8080/
 
---참고
-1. https://github.com/kantega/react-and-spring
-2. https://sundries-in-myidea.tistory.com/71
+## 참고
+    1. https://github.com/kantega/react-and-spring
+    2. https://sundries-in-myidea.tistory.com/71

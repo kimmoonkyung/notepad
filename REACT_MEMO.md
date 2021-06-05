@@ -771,47 +771,50 @@ import { Route, Link } from 'react-router-dom';
           };
       }, [history]);
 ```
-    > withRouter
-      > 라우터 컴포넌트가 아닌 곳에서 match, location, history props 들을 사용할 수 있게 해줌.
-    
-    import { withRouter } from 'react-router-dom';
-    function WithRouterSample({ location, match, history }) {
-      return (
-              <div>
-                  <h4>location</h4>
-                  <textarea value={JSON.stringify(location, null, 2)} readOnly />
-                  <h4>match</h4>
-                  <textarea value={JSON.stringify(match, null, 2)} readOnly />
-                  <button onClick={() => history.push('/')}>홈으로 이동</button>
-              </div>
-          );
-      }
-      export default withRouter(WithRouterSample);
-      > withRouter match
-          현재 자신이 렌더링 된 위치를 기준으로 match 값을 받아옴.
-            > 위의 예제를 기준으로는 withRouter는 Profiles.js 에서 렌더링 되고 있고
-            > url parameter를 따로 받아오고 있지 않기 때문에 (App.js 에서)
-              {
-                "path": "/profiles",
-                "url": "/profiles",
-                "isExact": false,
-                "params": {}
-              } => match 오브젝트는 params를 빈객체로 뱉는다.
-            > Profiles.js 가 아닌 Profile.js 에서 렌더링한다면
-              {
-                "path": "/profiles/:username",
-                "url": "/profiles/ask",
-                "isExact": true,
-                "params": { "username": "ask" }
-              } => 정상적으로 받아옴.
-        withRouter
-          location은 어디에서 렌더링 되던 똑같은 정보를 가져오지만,
-          match는 렌더링 된 기준으로 가져온다.
-          조건부로 성공할 때 사용한다.
-            > ex) 로그인 성공 했을 때 특정경로, 실패 시 가만히있고 싶다. 같은
-
-    Switch
-    여러 라우트 중 가장 먼저 매칭 된 하나만 보여줌
+#### withRouter
+> 라우터 컴포넌트가 아닌 곳에서 match, location, history props 들을 사용할 수 있게 해줌.
+```    
+import { withRouter } from 'react-router-dom';
+function WithRouterSample({ location, match, history }) {
+  return (
+          <div>
+              <h4>location</h4>
+              <textarea value={JSON.stringify(location, null, 2)} readOnly />
+              <h4>match</h4>
+              <textarea value={JSON.stringify(match, null, 2)} readOnly />
+              <button onClick={() => history.push('/')}>홈으로 이동</button>
+          </div>
+      );
+  }
+  export default withRouter(WithRouterSample);
+  > withRouter match
+      현재 자신이 렌더링 된 위치를 기준으로 match 값을 받아옴.
+        > 위의 예제를 기준으로는 withRouter는 Profiles.js 에서 렌더링 되고 있고
+        > url parameter를 따로 받아오고 있지 않기 때문에 (App.js 에서)
+          {
+            "path": "/profiles",
+            "url": "/profiles",
+            "isExact": false,
+            "params": {}
+          } => match 오브젝트는 params를 빈객체로 뱉는다.
+        > Profiles.js 가 아닌 Profile.js 에서 렌더링한다면
+          {
+            "path": "/profiles/:username",
+            "url": "/profiles/ask",
+            "isExact": true,
+            "params": { "username": "ask" }
+          } => 정상적으로 받아옴.
+```
+```
+  withRouter
+    location은 어디에서 렌더링 되던 똑같은 정보를 가져오지만,
+    match는 렌더링 된 기준으로 가져온다.
+    조건부로 성공할 때 사용한다.
+      > ex) 로그인 성공 했을 때 특정경로, 실패 시 가만히있고 싶다. 같은
+```
+#### Switch
+> 여러 라우트 중 가장 먼저 매칭 된 하나만 보여줌
+```
       > App.js
         import { Route, Link, Switch } from 'react-router-dom';
         <Switch>
@@ -828,58 +831,60 @@ import { Route, Link } from 'react-router-dom';
                     )}
                 /> => 404 페이지 구현시 사용하면 좋을 듯 하다.
         </Switch>
-        
-      NavLink
-      현재 주소와 일치한다면 스타일 바꾸기.
-      > Profiles.js
-        import { NavLink, Route } from 'react-router-dom';
-          <NavLink
-              to="/profiles/nsn"
-              activeStyle={{ background: 'black', color: 'white' }}
-          >
-              노승내
-          </NavLink>
+```     
+#### NavLink
+> 현재 주소와 일치한다면 스타일 바꾸기.
+ 
+##### Profiles.js
+```
+  import { NavLink, Route } from 'react-router-dom';
+    <NavLink
+        to="/profiles/nsn"
+        activeStyle={{ background: 'black', color: 'white' }}
+    >
+        노승내
+    </NavLink>
+``` 
+#### <Prompt>, <Redirect>
+```      
+```
+#### useReactRouterHook 사용
+    yarn add use-react-router
 
-      <Prompt>, <Redirect>
-      
-      useReactRouterHook 사용
-      yarn add use-react-router
-
-  ** Redux 리덕스
-  리액트 생태계에서 가장 사용률이 높은 상태 관리 라이브러리.
-  리덕스를 사용하면 컴포넌트의 상태 관리 로직들을 다른 파일로 분리시켜서
-  더욱 효율적으로 관리할 수 있으며 글로벌 상태 관리도 손 쉽게 할 수 있다.
+### Redux 리덕스
+> 리액트 생태계에서 가장 사용률이 높은 상태 관리 라이브러리. 리덕스를 사용하면 컴포넌트의 상태 관리 로직들을 다른 파일로 분리시켜서 더욱 효율적으로 관리할 수 있으며 글로벌 상태 관리도 손 쉽게 할 수 있다.
   
-  useReducer 와 유사하다.
-  
-  1. Context 사용과의 차이점
+> useReducer 와 유사하다.
+```
+1. Context 사용과의 차이점
     1. 미들웨어
-      1. 특정 조건에 따라 액션이 무시되게 만들 수 있다.
-      2. 액션을 콘솔에 출력하거나, 서버쪽에 로깅할 수 있다.
-      3. 액션이 디스패치 됐을 때 이를 수정해서 리듀서에게 전달되도록 할 수 있다.
-      4. 특정 액션이 발생했을 때 이에 기반하여 다른 액션이 발생되도록 할 수 있다.
-      5. 특정 액션이 발생했을 때 특정 자바스크립트 함수를 실행시킬 수 있다.
-      6. 비동기 작업을 더욱 체계적으로 관리 가능하다. (주사용 용도)
+        1. 특정 조건에 따라 액션이 무시되게 만들 수 있다.
+        2. 액션을 콘솔에 출력하거나, 서버쪽에 로깅할 수 있다.
+        3. 액션이 디스패치 됐을 때 이를 수정해서 리듀서에게 전달되도록 할 수 있다.
+        4. 특정 액션이 발생했을 때 이에 기반하여 다른 액션이 발생되도록 할 수 있다.
+        5. 특정 액션이 발생했을 때 특정 자바스크립트 함수를 실행시킬 수 있다.
+        6. 비동기 작업을 더욱 체계적으로 관리 가능하다. (주사용 용도)
     2. 유용한 함수와, Hooks를 지원 받을 수 있다.
       ex) connect, useSelector, useDispatch, useStore 등...
     3. 기본적인 최적화가 이미 되어 있다.
     4. 하나의 커다란 객체에 넣어서 사용한다.
-      1. 매번 컨텍스트를 만드는 수고로움을 덜어준다.
+        1. 매번 컨텍스트를 만드는 수고로움을 덜어준다.
     5. 리덕스는 아주 유용한 개발자도구가 있다.
-      2. 현재 상태를 한눈에 볼 수 있다.
-      3. 지금까지 어떠한 변화가 있었는지 볼 수 있다.
-      4. 특정 시점으로 상태를 되돌릴 수도 있다.
+        1. 현재 상태를 한눈에 볼 수 있다.
+        2. 지금까지 어떠한 변화가 있었는지 볼 수 있다.
+        3. 특정 시점으로 상태를 되돌릴 수도 있다.
     6. 이미 사용중인 프로젝트가 많다.
 
-  2. 언제 써야하는가 ?
-      1. 프로젝트의 규모가 큰가 ?
-        Redux Y / Context API N
-      2. 비동기 작업을 자주 하는가 ?
-        Redux Y / Context API N
-      3. 리덕스가 편하게 느껴지는가 ?
-        Redux Y / Context API or MobX N
-
-  *리덕스에서 사용되는 키워드 숙지
+2. 언제 써야하는가 ?
+    1. 프로젝트의 규모가 큰가 ?
+      Redux Y / Context API N
+    2. 비동기 작업을 자주 하는가 ?
+      Redux Y / Context API N
+    3. 리덕스가 편하게 느껴지는가 ?
+      Redux Y / Context API or MobX N
+```
+> *리덕스에서 사용되는 키워드 숙지
+```
   1. 액션 (Action)
     상태에 어떠한 변화가 필요할 때 액션이라는 것을 발생 시킨다.
     액션 객체는 { type: 'ADD', data : { id:1, text:'추가추가' } } 이런 식으로 이루어져 있다.
@@ -908,8 +913,9 @@ import { Route, Link } from 'react-router-dom';
       > 스토어의 내장 함수 중 하나, 호출 할 때 파라미터로 특정 함수를 넣어주면
       > 액션이 디스패치 될 때 마다 우리가 설정한 함수가 호출 된다.
       > 스토어의 상태가 업데이트 될 때 마다 특정 함수를 호출 할 수 있다는 것.
-
-  *리덕스의 3가지 규칙
+```
+> *리덕스의 3가지 규칙
+```
   1. 하나의 애플리케이션엔 하나의 스토어가 있다.
     스토어를 한개 이상 만들면 안 된다. (가능은 하나 권장되지 않는다.)
     스토어가 여러개가 되면 개발자 도구를 제대로 활용하지 못한다.
@@ -923,20 +929,21 @@ import { Route, Link } from 'react-router-dom';
     똑같은 파라미터로 호출된 리듀서 함수는 언제나 똑같은 결과값을 반환해야 한다.
     > 동일한 인풋 -> 동일한 아웃풋
       > new Date(), Math.random(), axios.get() 사용 하면 안 됨.
-  
-  실습
-  yarn add redux
+```
+#### 실습
+> yarn add redux
 
-  Ducks 패턴
-    // ducks 패턴을 사용할 땐,
-    // 액션타입 선언시 문자열 앞에 접두사를 붙인다.
-    // 다른 모듈과 중복되지 않게 하기 위함.
+#### Ducks 패턴
+> ducks 패턴을 사용할 땐,
+```
+1. 액션타입 선언시 문자열 앞에 접두사를 붙인다.
+2. 다른 모듈과 중복되지 않게 하기 위함.
+3. 액션 생성 함수 작성시는 export 키워드를 붙인다.
+4. 내보 낸 뒤 불러와서 사용 할 것임.
+```
 
-    // 액션 생성 함수 작성시는 export 키워드를 붙인다.
-    // 내보 낸 뒤 불러와서 사용 할 것임.
-
-    // 루트 리듀서를 만들 때는 combineReducers를 불러와서 사용한다.
-      modules/index.js
+> 루트 리듀서를 만들 때는 combineReducers를 불러와서 사용한다.
+##### modules/index.js
         import { combineReducers } from 'redux';
         import counter from './counter';
         import todos from './todos';
@@ -967,18 +974,19 @@ import { Route, Link } from 'react-router-dom';
                 document.getElementById('root'),
             );
 
-    /components/Counter.js
+##### /components/Counter.js
       프레젠테이션 컴포넌트에서는 UI에 집중한다.
       상수나 필요 한 값은 props로 받아와서 사용한다.
 
-    /containers/CounterContainer.js
+##### /containers/CounterContainer.js
       컨테이너 컴포넌트는 리덕스에 있는 상태를 조회하거나
       액션을 디스패치할 수 있는 컴포넌트를 의미한다.
         리액트 컴포넌트에서 리덕스를 연동할 땐, useSelector, useDispatch 훅을 사용 한다.
         useSelector => 상태 조회 훅 
         useDispatch => 액션 디스패치 
       
-      // 상태를 조회 할때는 useSelector를 사용 한다.
+> 상태를 조회 할때는 useSelector를 사용 한다.
+> 
           import { useDispatch, useSelector } from 'react-redux';
           import { decrease, increase, setDiff } from '../modules/counter';
 
@@ -1007,20 +1015,22 @@ import { Route, Link } from 'react-router-dom';
                   />
               );
           }
-    
-    redux devtools
+redux devtools
+```    
     구글 크롬 웹스토어 다운로드 후
     yarn add redux-devtools-extension
     index.js
       import { composeWithDevTools } from 'redux-devtools-extension';
       const store = createStore(rootReducer, composeWithDevTools());
+```
     
   
-  **리덕스 미들웨어
+### **리덕스 미들웨어
     리덕스가 지닌 핵심기능, mobx/contextAPI 와 비교 했을 때 차별화 될 강력한 기능
     만약, 리덕스를 사용하는데 미들웨어를 사용하지 않는다면 그냥 contextApi나 useReducer를 사용 하는게 나을 수 있다.
 
-    미들웨어를 사용하면
+> 미들웨어를 사용하면
+> 
       액션 -> 미들웨어 -> 리듀서 -> 스토어
       1. 액션이 디스패치 될 때 미들웨어에서 액션의 특정 조건에 따라 무시처리 되도록 할 수도 있다.
       2. 액션이 리듀서에게 전달되기 전에 특정코드를 실행 할 수 있다.
@@ -1035,12 +1045,11 @@ import { Route, Link } from 'react-router-dom';
       5. 일반적으로 만들어진 라이브러리 사용
         > redux-thunk, redux-saga, redux-observalble, redux-promise-middleware
 
-    redux-logger / redux-thunk, redux-saga를 사용 할 것이다~
-
-  프로젝트 준비
+> 프로젝트 준비
+   
     yarn add redux react-redux
       src/ module 디렉토리 생성
-        counter.js
+##### counter.js
           // 타입
           const INCREASE = 'counter/INCREASE';
           const DECREASE = 'counter/DECREASE';
@@ -1064,22 +1073,25 @@ import { Route, Link } from 'react-router-dom';
               }
           }
 
-          // 루트 리듀서 생성. modules/index.js
+> 루트 리듀서 생성. 
+##### modules/index.js
           import { combineReducers } from 'redux';
           import counter from './counter';
           const rootReducer = combineReducers({ counter });
           export default rootReducer;
 
-          // ** 프로젝트에 리덕스 적용
-            1. 프로바이더(react-redux)를 불러오고 스토어(redux)도 불러온다.
-              index.js
-              import { Provider } from 'react-redux';
-              import { createStore } from 'redux';
-              import rootReducer from './modules';
-              const store = createStore(rootReducer);
-            2. App 컴포넌트를 프로바이더로 감싸고 프롭스로 store를 넣어준다.
+> ** 프로젝트에 리덕스 적용
+            
+      1. 프로바이더(react-redux)를 불러오고 스토어(redux)도 불러온다.
+        index.js
+        import { Provider } from 'react-redux';
+        import { createStore } from 'redux';
+        import rootReducer from './modules';
+        const store = createStore(rootReducer);
+      2. App 컴포넌트를 프로바이더로 감싸고 프롭스로 store를 넣어준다.
 
-          // 컴포넌트 작성 components/Counter.js
+> 컴포넌트 작성 
+##### components/Counter.js
             function Counter({ number, onIncrease, onDecrease }) {
                 return (
                     <div>
@@ -1089,8 +1101,8 @@ import { Route, Link } from 'react-router-dom';
                     </div>
                 );
             }
-
-          // 컨테이너 작성 containers/CounterContainer.js
+> 컨테이너 작성 
+##### containers/CounterContainer.js
             function CounterContainer() {
               const number = useSelector((state) => state.counter);
               const dispatch = useDispatch();
@@ -1111,7 +1123,7 @@ import { Route, Link } from 'react-router-dom';
               );
           }
 
-    리덕스 미들웨어 작성 예
+#### 리덕스 미들웨어 작성 예
       > const middleware = store => next => action => {
           // 하고 싶은 작업..
           // 함수를 만드는 함수를 만드는 함수......
@@ -1127,22 +1139,26 @@ import { Route, Link } from 'react-router-dom';
       다음 미들웨어에게 액션을 전달 하는 함수
       만약에 다음 미들웨어가 없다면 넥스트를 통해 리듀서에게 액션을 전달.
 
-    미들웨어 작성
-    myLogger.js
-      const myLogger = (store) => (next) => (action) => {
-          console.log(action);          // 액션 디스패치 될때 콘솔 출력
-          const result = next(action);  // 액션 다음 미들웨어 혹은 다음 리듀서에 전달 하겠다.
-          console.log('\t', store.getState());  // 액션이 리듀서에서 처리가 모두 된 후 그 다음 상태를 가져와서 콘솔에 출력.
-          return result;                // 컨테이너에서 디스패치 되었을 때
-      };
-      // 내보내줌.
-      export default myLogger;          // 이 과정이 미들웨어를 벌써 다 만든거다. 진짜 ?
+> 미들웨어 작성
+##### myLogger.js
+```
+const myLogger = (store) => (next) => (action) => {
+    console.log(action);          // 액션 디스패치 될때 콘솔 출력
+    const result = next(action);  // 액션 다음 미들웨어 혹은 다음 리듀서에 전달 하겠다.
+    console.log('\t', store.getState());  // 액션이 리듀서에서 처리가 모두 된 후 그 다음 상태를 가져와서 콘솔에 출력.
+    return result;                // 컨테이너에서 디스패치 되었을 때
+};
+// 내보내줌.
+export default myLogger;          // 이 과정이 미들웨어를 벌써 다 만든거다. 진짜 ?
+```
 
-      > 스토어/리덕스에서 applyMiddleware를 불러온다. (index.js)
-        import { createStore, applyMiddleware } from 'redux';
-        // 작성한 미들웨어(myLogger)를 apllyMiddleware 함수에 불러와서 넣어줌.
-        const store = createStore(rootReducer, applyMiddleware(myLogger));
-
+> 스토어/리덕스에서 applyMiddleware를 불러온다.
+##### index.js
+```
+import { createStore, applyMiddleware } from 'redux';
+// 작성한 미들웨어(myLogger)를 apllyMiddleware 함수에 불러와서 넣어줌.
+const store = createStore(rootReducer, applyMiddleware(myLogger));
+```
     1. 미들웨어 > redux-logger 사용 및 미들웨어와 DevTools 함께 사용
       yarn add redux-logger
       yarn add redux-devtools-extension
@@ -1179,21 +1195,24 @@ import { Route, Link } from 'react-router-dom';
               // 컴포넌트에서
               dispatch(getComments());
 
-      리덕스 떵크 설치
+> 리덕스 떵크 설치
+      
       yarn add redux-thunk
-      index.js
+##### index.js
         > import ReduxThunk from 'redux-thunk';
           const store = createStore(
               rootReducer,
               composeWithDevTools(applyMiddleware(ReduxThunk, logger)),
           ); // logger 는 뒤에 넣어 준다.
       
-      redux-thunk Promise 다루기
+> redux-thunk Promise 다루기
+> 
         참고) https://learnjs.vlpt.us/async/
               http://bit.ly/MDNPromise
       
-      // action 생성 함수, 생략 가능 -> thunk에서 직접 작성하여 디스패치하는 형태로 작성해도 상관 없음
-        module/posts.js
+> action 생성 함수, 생략 가능 -> thunk에서 직접 작성하여 디스패치하는 형태로 작성해도 상관 없음
+> 
+##### module/posts.js
           export const getPosts = () => async (dispatch) => {
               // 요청이 시작 됨
               dispatch({ type: GET_POSTS });
@@ -1215,9 +1234,10 @@ import { Route, Link } from 'react-router-dom';
               }
           };
       
-    redux-thunk promise 다루기 라우터 연동
+> redux-thunk promise 다루기 라우터 연동
+      
       yarn add react-router-dom
-      index.js
+##### index.js
         import { BrowerRouter } from 'react-router-dom';
         // Provider 를 감싸준다.
         ReactDOM.render(
@@ -1229,10 +1249,12 @@ import { Route, Link } from 'react-router-dom';
             document.getElementById('root'),
         );
 
-    json-server
+> json-server
+>
     npx json-server ./data.json --port 4000
 
-    CORS 와 Webpack DevServer Proxy
+> CORS 와 Webpack DevServer Proxy
+>
       현재 상황
         webpack 개발 서버 http://localhost:3000/
                  api 서버 http://localhost:4000/posts
@@ -1241,16 +1263,18 @@ import { Route, Link } from 'react-router-dom';
           Access-Control-Allow-Origin : *
           Access-Control-Allow-Origin : http://localhost:3000
         
-        Proxy 설정
-          > package.json
-            맨 아래 -> "proxy": "http://localhost:4000"
+> Proxy 설정
+##### package.json
+    맨 아래 -> "proxy": "http://localhost:4000"
           
 
 
 
-
--- open color
-https://yeun.github.io/open-color/#gray
--- react-icons
-htpps://react-icons.netlify.com
-yarn add react-icons
+## 기타
+> open color
+>
+    https://yeun.github.io/open-color/#gray
+> react-icons
+> 
+    htpps://react-icons.netlify.com
+    yarn add react-icons
