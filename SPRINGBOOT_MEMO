@@ -48,6 +48,9 @@ AOP (관점 중심 프로그램)
         - Web Layer : REST API를 제공하며, Client 중심의 로직 적용
         - Business Layer : 내부 정책에 따른 logic을 개발하며, 주로 해당 부분을 개발
         - Data Layer : 데이터 베이스 및 외부와의 연동을 처리
+    dependency 추가해야함
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
     주요 Annotation
         @Aspect
             > 자바에서 널리 사용하는 AOP 프레임워크에 포함되며, AOP를 정의하는 Class에 할당
@@ -63,13 +66,14 @@ AOP (관점 중심 프로그램)
             > 메소드 호출 실패 예외 발생 (Throws)
         @Around
             > Before / After 모두 제어
-    
+    로그용으로 사용 할만 한 듯하다. 용도는 이게 다인가 ?
 
 
 PSA (이식 가능한 추상화)
 
 
-    
+포트 변경 - application.properties 
+    > server.port=9090    
 터미널에서 ./gradlew bootRun 으로 서버 실행
 /***************************************************************************************/
 
