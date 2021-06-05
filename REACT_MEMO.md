@@ -1,100 +1,122 @@
---react 설치
-설치할 폴더로 이동하여 'create-react-app .'
-. 은 현재경로
+# react 설치
+    설치할 폴더로 이동하여 'create-react-app .'
+    . 은 현재경로
 
---샘플 실행
-vscode terminal에서 'npm run start'
---종료
-vscode terminal에서 'ctrl + c'
+## 샘플 실행
+    vscode terminal에서 'npm run start'
+    --종료
+    vscode terminal에서 'ctrl + c'
 
---bulid 실행 ( ** 공백 등 같은 불필요한 것들을 제거 하여 용량을 줄인다. -> 실제로 (서비스)배포시 빌드안에 있는 파일을 배포한다. 실서버 환경)
-vscode terminal에서  'npm run build'
+## bulid 실행 
+> ( ** 공백 등 같은 불필요한 것들을 제거 하여 용량을 줄인다. -> 실제로 (서비스)배포시 
+> 빌드안에 있는 파일을 배포한다. 실서버 환경)
+>
+    vscode terminal에서  'npm run build'
 
---npm으로 설치하는 간단한 웹 서버
-'npm install -g serve'
--> 어디에서나 serve 명령어로 서버를 설치할 수 있다.
-'npx serve -s build'
--> '-s build' 서브라는 웹서버를 받아서 실행시킬때 'build' 라는 생성한 디렉토리를 document 루트로 하겠다. 
+### npm으로 설치하는 간단한 웹 서버
+    'npm install -g serve'
+      -> 어디에서나 serve 명령어로 서버를 설치할 수 있다.
+    'npx serve -s build'
+      -> '-s build' 서브라는 웹서버를 받아서 실행시킬때 'build' 라는 생성한 디렉토리를 document 루트로 하겠다. 
 
---이것은 js 문법이 아니고, jsx 문법이다.
-class App extends Component {
-  render() {
-    return (
-      <div className="Subject">
-        <Subject></Subject>
-     </div>
-    )
-  }
-}
+### 이것은 js 문법이 아니고, jsx 문법이다.
+    class App extends Component {
+      render() {
+        return (
+          <div className="Subject">
+            <Subject></Subject>
+        </div>
+        )
+      }
+    }
 
---리액트 코드 작성시
-import React, { Component } from 'react';
-export default 'JS파일명'
-는 필수로 적어야 된다고 생각하면 된다.
+### 리액트 코드 작성시
+    import React, { Component } from 'react';
+    export default 'JS파일명'
+    는 필수로 적어야 된다고 생각하면 된다.
 
---Component 만드는 법.
+### Component 만드는 법.
 1. function으로 생성
--> function App() {
-    return (
-        코드 작성
-    )
-}
-2. class로 생성
--> class App extends Component {
-    render() {
+```
+    -> 
+    function App() {
         return (
             코드 작성
         )
     }
-}
+```
+2. class로 생성
+```
+    -> 
+    class App extends Component {
+        render() {
+            return (
+                코드 작성
+            )
+        }
+    }
+```
 
 
---props
-사용자가 컴포넌트를 사용하는 입장에서 중요한것 
-function에서는 {this.props.xxx} 사용 안됨
-çlass는 사용 가능. function에서는 어떻게 ?
-
+## props
+> 사용자가 컴포넌트를 사용하는 입장에서 중요한것 
+> 
+    function에서는 {this.props.xxx} 사용 안됨
+    class는 사용 가능. function에서는 어떻게 ?
 * props are read only
 * props can not be modified
 
---state
-데이터를 갖다 쓰는 용도.
-
+## state
+> 데이터를 갖다 쓰는 용도.
+>
 * state changes can be asynchronous
 * state can be modified using this.setStae({  })
---setState
-this.setState({
-  mode : "welcome"
-})
+### setState
+    this.setState({
+      mode : "welcome"
+    })
 
 
---key
+### key
+```
+```
+### bind
+    .bind(this)
 
---bind
-.bind(this)
+### Immutable
+    불변.
+    immutable.js
 
---Immutable
-불변.
-immutable.js
+### router
+> React Router
+```ReactRouter
 
---router
-React Router
+```
 
---redux
+### redux
+```ReactRedux
+
+```
+### react server side rendering
+```
+```
+
+> 컴포넌트 이름은 대문자로 시작한다.
+
+#### index.js 와 App.js의 의미
+```
+
+```
 
 
---react server side rendering
+## JSX 기본 규칙
+> 태그는 꼭 닫혀 있어야 한다.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------
-  > 컴포넌트 이름은 대문자로 시작한다.
+> 두개 이상의 태그는 하나로 감싸 있어져야 한다.
 
--- index.js 와 App.js의 의미
-
-
--- JSX 기본 규칙
-  > 태그는 꼭 닫혀 있어야 한다.
-  > 두개 이상의 태그는 하나로 감싸 있어져야 한다.
-    ex) <div></div> <hello/> -> 에러, <div> <div></div> <hello/> </div> 로 해결. 또는 상위 div 대신 <> </>를 사용한다.
+#### ex) 
+```
+<div></div> <hello/> -> 에러, <div> <div></div> <hello/> </div> 로 해결. 또는 상위 div 대신 <> </>를 사용한다.
   > return 시 괄호는 없어도 된다.
   > jsx 내부에서 js 사용법
     const name = '짐승내'; -> <div>{name}</div>
@@ -114,28 +136,33 @@ React Router
       { /*  */ }
       html 코드 내에서는 //로 사용 가능하다.
       ex) <Hello> '// 주석' </Hello>
-
--- props (proerties 프로퍼티)
-컴포넌트를 사용하게 될 때 특정 값의 전달이 필요할 때 사용
-  > ex) 
-    App.js
-      function App() {
-        return (
-            <Hello name="react" color="aqua"/> --> 이것들이 props 다 name, color
-        );
-      }
-    Hello.js
-      /* function Hello(props) { */
-      function Hello({color, name}) {
-        console.log(props); // {name: react}
-        /* return <div style={{color: props.color}}>안녕 나는 짐승내! {props.name} </div>; */
-        return <div style={{color}}>안녕 나는 짐승내! {name} </div>;
-        // 이런 식으로 사용도 가능하다
-      }
-    console.log(props);
+```
+### props (proerties 프로퍼티)
+> 컴포넌트를 사용하게 될 때 특정 값의 전달이 필요할 때 사용
+#### ex)
+##### App.js
+```
+function App() {
+  return (
+      <Hello name="react" color="aqua"/> --> 이것들이 props 다 name, color
+  );
+}
+```
+##### Hello.js
+```
+/* function Hello(props) { */
+function Hello({color, name}) {
+  console.log(props); // {name: react}
+  /* return <div style={{color: props.color}}>안녕 나는 짐승내! {props.name} </div>; */
+  return <div style={{color}}>안녕 나는 짐승내! {name} </div>;
+  // 이런 식으로 사용도 가능하다
+}
+console.log(props);
+```
   
-  > defaultProps (기본값) 사용법
-    Hello.js
+#### defaultProps (기본값) 사용법
+##### Hello.js
+```
     Hello.defaultProps = {
       name : "짐승균"
     }
@@ -147,31 +174,39 @@ React Router
         <Hello color="black" /> // name="짐승균"으로 기본값이 들어간다.
       </>
     )
+```
+#### propsChildren (프롭스 칠드런)
+#### ex) 
+##### App.js
+```
+function App() {
+  return (
+    <Wrapper> ... </Wrapper>
+  );
+}  
+```
+##### Wrapper.js
+```
+function Wrapper({ children }) {
+    const style = {
+        border: '2px solid black',
+        padding: 16
+    };
+    return (
+        <div style={style}>{children}</div>
+    )
+}
+```
+#### 조건부 렌더링
+    {isSpecial && <b>*</b>}
 
-  > propsChildren (프롭스 칠드런)
-  ex) App.js
-      function App() {
-        return (
-          <Wrapper> ... </Wrapper>
-        );
-      }  
-      Wrapper.js
-      function Wrapper({ children }) {
-          const style = {
-              border: '2px solid black',
-              padding: 16
-          };
-          return (
-              <div style={style}>{children}</div>
-          )
-      }
-  > 조건부 렌더링
-  {isSpecial && <b>*</b>}
-
--- useState (동적 상태 관리 - Hooks)
+### useState (동적 상태 관리 - Hooks)
+```
 const [number, setNumber] = useState(10); // useState(기본값 설정);
-  > Counter.js
-    ** import React, { useState } from 'react'; // React 패키지에서 useState 함수를 불러온다.
+```
+##### Counter.js
+> ** import React, { useState } from 'react'; // React 패키지에서 useState 함수를 불러온다.
+>
     function Counter() {
       const [number, setNumber] = useState(0); // useState를 사용하면 배열을 반환하며, 첫번째 원소는 현재 값, 두번째 원소는 값을 변경하는 함수로 사용할 것이다.
       const increase = () => {
@@ -190,15 +225,15 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
       )
     }
 
-  > App.js
+##### App.js
     function App () {
       return (
         <Counter />
       )
     }
 
--- useState (input 상태 관리)
-  > InputSample.js
+### useState (input 상태 관리)
+##### InputSample.js
     import React, { useState } from 'react';
     function InputSample() {
       const [text, setText] = useState('');
@@ -217,166 +252,186 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
         </div>
       )
     }
-
-  > 여러개의 input 관리
-  function InputSample(){
-    const [inputs, setInputs] = useState({
-      name : '',
-      boyFriend : ''
-    });
-    const { name, boyFriend } = inputs;
-    const onChange = (e) => {
-      const {name, value} = e.target;
-      setInputs({
-        ...inputs,
-        [name] : value,
-      });
-    const onReset = () => {
-      setInputs({
+### 여러개의 input 관리
+    function InputSample(){
+      const [inputs, setInputs] = useState({
         name : '',
         boyFriend : ''
-      })
-    }
-  }
-  // 객체 상태를 업데이트 할 때는 ...(스프레드 문법)을 사용해서 객체를 복사하고 난 뒤 상태를 바꿔줘야한다.
-
--- useRef (특정 DOM 선택하기)
-  import React, { useState, useRef } from 'react';
-  const nameInput = useRef();
-  const onReset = () => {
-    setInput({ .. });
-    nameInput.current.focus();
-  }
-  <input ref={nameInput}>
-  // 초기화 버튼 클릭시 ref 설정한 input 으로 포커스 이동
-
--- 배열 렌더링 하기
-  function Users( { user } ) {
-    return (
-      <div>
-        <b>{user.name}</b> <span>({user.email})</span>
-      </div>
-    )
-  }
-  function UserList() {
-    const users = [
-      {id : 1, name: '승내', email: '1@mail.com'},
-      {id : 2, name: '짐승내', email: '2@mail.com'}
-    ]
-    return (
-      <div>
-        { 
-          users.map( (user,idx) => (<Users user={user} key={idx}/>) ) 
-          // "(user, idx)" 파라미터를 가져와서 "=>" Users 라는 컴포넌트를 렌더링 해줄것("(<Users user={user} />)")
-          // idx는 "key={idx}" key props로 사용한다.
-            > 미사용 시 child in a list should have a unique "key" prop. > 고유값을 key 로 사용해줘야함.
-              > ex) "key={user.id}"
-          // key가 없다면 비효율적인 렌더링을 한다.
-        }
-      </div>
-    )
-  }
-
--- useRef 로 컴포넌트 안의 변수 만들기
-  컴포넌트가 리렌더링 될 때마다 기억할 수 있는 값을 관리할 때도 사용할 수 있다.
-    > ex) setTimeout, setInterval, 외부라이브러리를 사용해서 생성된 인스턴스를 담을때, scroll 위치 등 다양하게 사용한다.
-    > useRef로 관리하는 값은 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
-  
--- 배열에 항목 추가하기
-  // App.js 에서 4개의 props를 받아온다.
-  function CreateUser( {username, email, onChange, onCreate} ) {
-    > App.js
-      <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
-      > {username}, {email} -> "inputs" 로 관리
-        const [inputs, setInputs] = useState({
-          username: '',
-          email: '',
+      });
+      const { name, boyFriend } = inputs;
+      const onChange = (e) => {
+        const {name, value} = e.target;
+        setInputs({
+          ...inputs,
+          [name] : value,
         });
-        const { username, email } = inputs;
-      > {onChange} -> "e(이벤트)"를 받아와서 setInputs(useState) 사용. -> name과 value를 e.target에 담음 -> 
-        const onChange = (e) => {
-          const { name, value } = e.target;
-          setInputs({
-            ...inputs,
-            [name] : value,  // name값을 value로 덮어 씌우겠다. ex) name이 username(input)이면 username의 value 값을,
-          });
-        };
-      > {onCreate} -> 클릭시 "user" 객체 생성 후 setUsers(useState)에 "...users" 로 복사 해온 뒤 생성한 "user" 객체를 더 해주는 로직 -> 이후 setInputs를 통해 inputs들 값을 비워 준다.
-                        > 주의 할 점으로 객체를 복사해 올 땐, 기존의 배열을 건들지 않는다. push splice sort 같은 것은 사용 하지 않는다.
-        const onCreate = () => {
-          const user = {
-            id: nextId.current,
-            username,
-            email, // ...inputs 로 대체 가능
-          };
-          setUsers([...users, user]); //setUsers(users.concat(user)); 로 대체 가능
-          setInputs({
-            username: '',
-            email : '',
-          });
-          console.log(nextId.current);
-          nextId.current += 1;
-        }
+      const onReset = () => {
+        setInputs({
+          name : '',
+          boyFriend : ''
+        })
+      }
+    }
+> 객체 상태를 업데이트 할 때는 ...(스프레드 문법)을 사용해서 객체를 복사하고 난 뒤 상태를 바꿔줘야한다.
 
--- 배열에 항목 삭제하기
-  > App.js
+
+### useRef (특정 DOM 선택하기)
+    import React, { useState, useRef } from 'react';
+    const nameInput = useRef();
+    const onReset = () => {
+      setInput({ .. });
+      nameInput.current.focus();
+    }
+    <input ref={nameInput}>
+    // 초기화 버튼 클릭시 ref 설정한 input 으로 포커스 이동
+
+### 배열 렌더링 하기
+    function Users( { user } ) {
+      return (
+        <div>
+          <b>{user.name}</b> <span>({user.email})</span>
+        </div>
+      )
+    }
+    function UserList() {
+      const users = [
+        {id : 1, name: '승내', email: '1@mail.com'},
+        {id : 2, name: '짐승내', email: '2@mail.com'}
+      ]
+      return (
+        <div>
+          { 
+            users.map( (user,idx) => (<Users user={user} key={idx}/>) ) 
+            // "(user, idx)" 파라미터를 가져와서 "=>" Users 라는 컴포넌트를 렌더링 해줄것("(<Users user={user} />)")
+            // idx는 "key={idx}" key props로 사용한다.
+              > 미사용 시 child in a list should have a unique "key" prop. > 고유값을 key 로 사용해줘야함.
+                > ex) "key={user.id}"
+            // key가 없다면 비효율적인 렌더링을 한다.
+          }
+        </div>
+      )
+    }
+
+### useRef 로 컴포넌트 안의 변수 만들기
+> 컴포넌트가 리렌더링 될 때마다 기억할 수 있는 값을 관리할 때도 사용할 수 있다.
+#### ex) 
+```
+setTimeout, setInterval, 외부라이브러리를 사용해서 생성된 인스턴스를 담을때, scroll 위치 등 다양하게 사용한다.
+```
+> useRef로 관리하는 값은 바뀌어도 컴포넌트가 리렌더링 되지 않는다.
+    
+  
+### 배열에 항목 추가하기
+  App.js 에서 4개의 props를 받아온다.
+##### App.js
+```
+function CreateUser( {username, email, onChange, onCreate} ) {
+    <CreateUser username={username} email={email} onChange={onChange} onCreate={onCreate}/>
+    > {username}, {email} -> "inputs" 로 관리
+      const [inputs, setInputs] = useState({
+        username: '',
+        email: '',
+      });
+      const { username, email } = inputs;
+    > {onChange} -> "e(이벤트)"를 받아와서 setInputs(useState) 사용. -> name과 value를 e.target에 담음 -> 
+      const onChange = (e) => {
+        const { name, value } = e.target;
+        setInputs({
+          ...inputs,
+          [name] : value,  // name값을 value로 덮어 씌우겠다. ex) name이 username(input)이면 username의 value 값을,
+        });
+      };
+```
+> {onCreate} -> 클릭시 "user" 객체 생성 후 setUsers(useState)에 "...users" 로 복사 해온 뒤 생성한 "user" 객체를 더 해주는 로직 -> 이후 setInputs를 통해 inputs들 값을 비워 준다.
+
+> 주의 할 점으로 객체를 복사해 올 땐, 기존의 배열을 건들지 않는다. push splice sort 같은 것은 사용 하지 않는다.
+```
+const onCreate = () => {
+  const user = {
+    id: nextId.current,
+    username,
+    email, // ...inputs 로 대체 가능
+  };
+  setUsers([...users, user]); //setUsers(users.concat(user)); 로 대체 가능
+  setInputs({
+    username: '',
+    email : '',
+  });
+  console.log(nextId.current);
+  nextId.current += 1;
+}
+```
+
+### 배열에 항목 삭제하기
+##### App.js
     const onRemove = (id) => {
       console.log("삭제버튼 클릭 : " + id);
       setUsers(users.filter(user => user.id !== id));
     }
     > return()
       <UserList users={users} onRemove={onRemove}/>
-  > UserList.js
-    > User 컴포넌트
-      function User({ user, onRemove }) {
-        const {username, email, id} = user;
-        > return()
-          <button onClick={() => onRemove(id)}>삭제</button>
-          {/* <button onClick={onRemove(id)}>삭제</button -> 이렇게 사용하면 렌더링시점에 삭제된다. */}
-            > onClick 은 함수를 "() =>" 를 넣어서 사용해야함.
+##### UserList.js
+###### User 컴포넌트
+```
+function User({ user, onRemove }) {
+  const {username, email, id} = user;
+  > return()
+    <button onClick={() => onRemove(id)}>삭제</button>
+    {/* <button onClick={onRemove(id)}>삭제</button -> 이래 쓰면 렌더링시점에 삭제된다. */}
+```
+> onClick 은 함수를 "() =>" 를 넣어서 사용해야함.
 
--- 배열에 항목 수정하기
-  > App.js
-      const onToggle = (id) => {
-        console.log("수정버튼 클릭 : " + id);
-        setUsers( users.map( user => user.id === id ? { ...user, active: !user.active } : user ) );
-        // 파라미터로 가져온 id 값이 일치한다면 active 값을 바꿔준다.
-        // "users.map"의 파라미터를 "user"로 사용 하고 user.id의 값과 onToggle을 통해 가져온 id의 값이 일치한다면, 
-        // "? { ...user, active: !user.active }" "...user"로 객체를 복사해오고 ",active:" 로 active(boolean 값임.) 값은 반대로 바꿔준다. !user.active
-        // ": user" 일치하지 않는다면 기존의 값을 그대로 사용하겠다.
-      };
-  > UserList.js
-    > User 컴포넌트
-      function User({ user, onRemove, onToggle }) {
-        const {username, email, id, active} = user;
-      > return
-        <b 
-          style={{
-            color: active ? 'green' : 'black', // active값이 true 면 "green" false 면 "black"
-            cursor: 'pointer'
-          }}
-          onClick={ () => onToggle(id) }
-        >
-    > UserList 컴포넌트 onRemove 때와 마찬가지로
-      function UserList( {..... onToggle 추가 } )
-        > return ()
-          <div>
-            { users.map( (user) => ( <User user={user} key={user.id} onRemove={onRemove}onToggle={onToggle}/> ) ) }
-          </div>
-
--- useEffect 사용하여 마운트언마운트 업데이트할 작업 설정.
+### 배열에 항목 수정하기
+##### App.js
+```
+const onToggle = (id) => {
+  console.log("수정버튼 클릭 : " + id);
+  setUsers( users.map( user => user.id === id ? { ...user, active: !user.active } : user ) );
+  // 파라미터로 가져온 id 값이 일치한다면 active 값을 바꿔준다.
+  // "users.map"의 파라미터를 "user"로 사용 하고 user.id의 값과 onToggle을 통해 가져온 id의 값이 일치한다면, 
+  // "? { ...user, active: !user.active }" "...user"로 객체를 복사해오고 ",active:" 로 active(boolean 값임.) 값은 반대로 바꿔준다. !user.active
+  // ": user" 일치하지 않는다면 기존의 값을 그대로 사용하겠다.
+};
+```
+##### UserList.js
+###### User 컴포넌트
+```
+function User({ user, onRemove, onToggle }) {
+  const {username, email, id, active} = user;
+> return
+  <b 
+    style={{
+      color: active ? 'green' : 'black', // active값이 true 면 "green" false 면 "black"
+      cursor: 'pointer'
+    }}
+    onClick={ () => onToggle(id) }
+```
+###### UserList 컴포넌트 onRemove 때와 마찬가지로
+```
+function UserList( {..... onToggle 추가 } )
+  > return ()
+    <div>
+      { users.map( (user) => ( <User user={user} key={user.id} onRemove={onRemove}onToggle={onToggle}/> ) ) }
+    </div>
+```
+### useEffect 사용하여 마운트언마운트 업데이트할 작업 설정.
   > 컴포넌트가 마운트 됐을 때 (처음 나타났을 때), 언마운트 됐을 때 (사라질 때), 그리고 업데이트 될 때 (특정 props가 바뀔 때)
 
--- useMemo
-  컴포넌트 최적화시 사용..
 
--- useCallback
-  리렌더링시 컴포넌트 최적화
-    > 사용법
-      export default React.memo(컴포넌트);
+### useMemo
+> 컴포넌트 최적화시 사용..
+>
 
--- useReducer
-  // useState -> useReducer 로 변경
+### useCallback
+> 리렌더링시 컴포넌트 최적화
+```
+  > 사용법
+    export default React.memo(컴포넌트);
+```
+
+### useReducer
+```
+useState -> useReducer 로 변경
   import React, { useReducer } from 'react';
     > reducer 함수 생성
       function reducer(state, action) {
@@ -389,6 +444,8 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
                   throw new Error('Unhandled action');
           }
       };
+```
+```
     > useState 방식 변경
       const onIncrease = () => {
         setN(prevNumber => prevNumber + 1);
@@ -400,38 +457,44 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
                   type : 'INCREMENT'
               })
           }
+```
 
--- useReducer VS useState
-  정해진 답은 없다. 상황에 따라 불편할때도, 편할때도 있다.
-  예를들어 컴포넌트에서 관리하는 값이 하나, 혹은 단순한 값 (문자열, boolean, 숫자 등)이면 useState로 관리하는 것이 편할 것이다.
-  맘에 드는 방식을 사용 하면 될 것이다.
-  간단한거다 싶으면.. useState / 복잡할 것 같다.. 그럼 useReducer
+## useReducer VS useState
+    정해진 답은 없다. 상황에 따라 불편할때도, 편할때도 있다.
+    예를들어 컴포넌트에서 관리하는 값이 하나, 혹은 단순한 값 (문자열, boolean, 숫자 등)이면 useState로 관리하는 것이 편할 것이다.
+    맘에 드는 방식을 사용 하면 될 것이다.
+    간단한거다 싶으면.. useState / 복잡할 것 같다.. 그럼 useReducer
 
--- custom Hook
+### custom Hook
+```
+```
 
--- contextAPI
+### contextAPI
+```
+```
 
--- IMMER (개인적으로 맘에든다.)
-  불변성 관리
-    불변성을 해치는 코드를 작성해도 대신 불변성 유지를 해준다.
-  ex ) const arr = [ 
-                      { id: 1, text: 'hello'},{ id:2, text: 'bye'},{ id:3, text: '9ood'}
-                  ] 
-      const nextArr = produce(arr, draft => {
-          draft.push({id:4, text: '안녕'});
-          draft[0].text = draft[0].text + ' world';
-      });
-  성능 -> 유의미한 차이가 날정도로 느리다고 볼 순 없는 듯 하다.
-          구형 브라우저나 리액트 네이티브 환경에서는 이 기능(proxy)이 지원되지 않는다. -> 느려짐.
+### IMMER (개인적으로 맘에든다.)
+    불변성 관리
+      불변성을 해치는 코드를 작성해도 대신 불변성 유지를 해준다.
+    ex ) const arr = [ 
+                        { id: 1, text: 'hello'},{ id:2, text: 'bye'},{ id:3, text: '9ood'}
+                    ] 
+        const nextArr = produce(arr, draft => {
+            draft.push({id:4, text: '안녕'});
+            draft[0].text = draft[0].text + ' world';
+        });
+    성능 -> 유의미한 차이가 날정도로 느리다고 볼 순 없는 듯 하다.
+            구형 브라우저나 리액트 네이티브 환경에서는 이 기능(proxy)이 지원되지 않는다. -> 느려짐.
 
--- 클래스형 컴포넌트
-  hooks 가 나오기 전까지 함수형 컴포넌트보다 기능이 잘 먹어서 사용함.
+### 클래스형 컴포넌트
+> hooks 가 나오기 전까지 함수형 컴포넌트보다 기능이 잘 먹어서 사용함.
+> 
 
--- LifeCycle 메서드
-  https://react.vlpt.us/basic/25-lifecycle.html
-  https://codesandbox.io/s/hungry-river-5hgu5?file=/src/LifeCycleSample.js:1050-1055
+### LifeCycle 메서드
+    https://react.vlpt.us/basic/25-lifecycle.html
+    https://codesandbox.io/s/hungry-river-5hgu5?file=/src/LifeCycleSample.js:1050-1055
 
--- componentDidCatch / Sentry
+### componentDidCatch / Sentry
     componentDidCatch(error, info){
         console.log('에러 발생');
         console.log({
@@ -447,7 +510,7 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
     }
 
 
--- scss 
+### scss 
     classnames
         > yarn add classnames
           > import classNames from 'classnames'; 
@@ -458,27 +521,32 @@ const [number, setNumber] = useState(10); // useState(기본값 설정);
       }
     }
 
--- ...rest props
+### ...rest props
+```
+```
 
--- CSS Module
-  레거시 프로젝트에 리액트롤 도입 할 때,
-  CSS 클래스 네이밍 규칙 만들기 귀찮을 때
-  사용 하면 좋음.
+### CSS Module
+    레거시 프로젝트에 리액트롤 도입 할 때,
+    CSS 클래스 네이밍 규칙 만들기 귀찮을 때
+    사용 하면 좋음.
 
--- Styled-components
-yarn add styled-components
-import styled from 'styled-components';
-  마켓 플레이스 vscode-styled-components 확장프로그램 설치
+### Styled-components
+    yarn add styled-components
+    import styled from 'styled-components';
+      마켓 플레이스 vscode-styled-components 확장프로그램 설치
+> styled-components를 사용 하면 
 
-  styled-components를 사용 하면 
-  스타일을 선언과 동시에 컴포넌트를 생성해 낼 수 있다.
-  *Tagged Template Literal을 사용하여 생성한다.
+> 스타일을 선언과 동시에 컴포넌트를 생성해 낼 수 있다.
+
+> *Tagged Template Literal을 사용하여 생성한다.
+ 
     ex) const Example = styled.div`
           weight: 100px;
           height: 100px;
           background: pink;
         `
-    props를 받아서 설정도 가능하다.
+> props를 받아서 설정도 가능하다.
+
       ex) const Example = styled.div`
             weight: 100px;
             height: 100px;
@@ -488,15 +556,15 @@ import styled from 'styled-components';
               return <Example color="blue">
           }
 
-  Polished 스타일 유틸 함수 사용
+### Polished 스타일 유틸 함수 사용
     yarn add polished
     import { darken, lighten } from 'polished';
 
-  ThemeProvider
+### ThemeProvider
     import styled { ThemeProvider } from 'styled-components';
       <ThemeProvider theme={{}}></ThemeProvider>
 
-  *styled-components 내 변수 사용
+### styled-components 내 변수 사용
     App.js
       const palette = {
         blue: '#228be6',
@@ -555,11 +623,12 @@ import styled from 'styled-components';
     Dialog.js
 
 
-***TODO LIST 투두리스트 프로젝트
-  npx create-react-app 프젝명
-  yarn add styled-components react-icons
+# TODO LIST 투두리스트 프로젝트
+    npx create-react-app 프젝명
+    yarn add styled-components react-icons
 
-  > 글로벌 스타일 지정
+> 글로벌 스타일 지정
+>
     import { createGlobalStyle } from 'styled-components';
     const GlobalStyle = createGlobalStyle`
       body {
@@ -567,55 +636,60 @@ import styled from 'styled-components';
       }
     `;
 
-  > Context Api를 활용한 상태관리
-    TodoContext.js
+### Context Api를 활용한 상태관리
+> TodoContext.js
 
-***API 연동
-  
+### API 연동
+```
+```
 
--- react-async
-yarn add react-async
+### react-async
+    yarn add react-async
 
-  > Context 활용한 비동기 작업 상태 관리
-    UsersContext.js
+### Context 활용한 비동기 작업 상태 관리
+> UsersContext.js
 
--- react-router
-yarn add react-router-dom
+### react-router
+    yarn add react-router-dom
 
--- SPA Single Page Application
-  라우팅을 클라이언트가 담당한다.
-  라우팅이란 ? 어떤 주소에 어떤 UI 를 보여줄지.
-  보통은 서버에서 처리하는 로직이지만 spa 에서는 클라이언트가 관리한다.
+### SPA Single Page Application
+    라우팅을 클라이언트가 담당한다.
+    라우팅이란 ? 어떤 주소에 어떤 UI 를 보여줄지.
+    보통은 서버에서 처리하는 로직이지만 spa 에서는 클라이언트가 관리한다.
 
-  import { HashRouter } from 'react-router-dom';
-    index.js
-      > <HashRouter> 
-          ....
-        </HashRouter>
-          > url에 #(해시태그가 붙는다.)
-            > ex ) http://localhost:3000/#/
-  MemoryRouter
-    > url에 변화가 없다. (가상의 주소)
+    import { HashRouter } from 'react-router-dom';
+      index.js
+        > <HashRouter> 
+            ....
+          </HashRouter>
+            > url에 #(해시태그가 붙는다.)
+              > ex ) http://localhost:3000/#/
+#### MemoryRouter
+> url에 변화가 없다. (가상의 주소)
 
-  exact
-  <Route path="/" component={Home} exact />
-    > exact default 값 true
-      > exact 가 있으면 url이 path와 일치해야만 화면에 보여준다.
+#### exact
+    <Route path="/" component={Home} exact />
+      > exact default 값 true
+        > exact 가 있으면 url이 path와 일치해야만 화면에 보여준다.
 
-  import { Route, Link } from 'react-router-dom';
-    Link
-      a 태그는 사용하지 않는다. 
-        a 태그를 사용하면 페이지를 새로 불러온다.
+#### Link
+1. a 태그는 사용하지 않는다. 
+2. a 태그를 사용하면 페이지를 새로 불러온다.
+```
+import { Route, Link } from 'react-router-dom';
+```
 
-  파라미터와 쿼리
-    파라미터
+#### 파라미터와 쿼리
+> 파라미터
+> 
     props "match" { match } 
       > Route 컴포넌트에서 넣어주는 프롭스, 따로 설정할 필요 없이 자동으로 받아온다.
         > const { username } = match.params;
         > <Route path="/profiles/:username" component={Profile} />
           > path대로 조회 > /profiles/kmk
 
-    쿼리
+> 쿼리
+> 
     props "location"
     { location } 
       > http://localhost:3000/about?a=1
@@ -625,7 +699,9 @@ yarn add react-router-dom
               "hash": ""
           }
         location은 이러한 오브젝트를 뱉어낸다.
-    qs라는 라이브러리를 사용하여 파싱한다
+> qs라는 라이브러리를 사용하여 파싱한다
+
+```
       yarn add qs
         import qs from 'qs';
         const query = qs.parse(location.search, {
@@ -642,9 +718,10 @@ yarn add react-router-dom
         (문자열로 가져오기 때문에 'true'로 비교해야한다.)
       const b = query.b; // -> http://localhost:3000/about?b=paka99
       console.log(b); // -> paka99
-
-    SubRoute (서브 라우트)
-    Profiles.js
+```
+> SubRoute (서브 라우트)
+##### Profiles.js
+```
     <h3>사용자 목록</h3>
     <ul>
         <li>
@@ -660,11 +737,12 @@ yarn add react-router-dom
         render={() => <div> {a} 사용자를 선택해주세요</div>}
     />
     <Route path="/profiles/:username" component={Profile} />
+```
+#### 라우터 부가기능
+> history 객체
 
-  라우터 부가기능
-    > history 객체
-      {history} props 로 받아온다.
-
+> {history} props 로 받아온다.
+```
       const goBack = () => {
         history.goBack();
           // goBack => 뒤로가기
@@ -673,13 +751,15 @@ yarn add react-router-dom
           history.push('/');
           // push => 특정경로 이동
       };
-
+```
+```
       const replactToHome = () => {
           history.replace('/');
           // goHome은 방문한 페이지를 기록에 남기지만
           // replace는 남기지 않는다.
       };
-
+```
+```
       useEffect(() => {
           console.log(history);
           const unblock = history.block('나갈거임 ?');
@@ -690,7 +770,7 @@ yarn add react-router-dom
               // alert 창 뜸.
           };
       }, [history]);
-
+```
     > withRouter
       > 라우터 컴포넌트가 아닌 곳에서 match, location, history props 들을 사용할 수 있게 해줌.
     
@@ -786,9 +866,9 @@ yarn add react-router-dom
     4. 하나의 커다란 객체에 넣어서 사용한다.
       1. 매번 컨텍스트를 만드는 수고로움을 덜어준다.
     5. 리덕스는 아주 유용한 개발자도구가 있다.
-      1. 현재 상태를 한눈에 볼 수 있다.
-      2. 지금까지 어떠한 변화가 있었는지 볼 수 있다.
-      3. 특정 시점으로 상태를 되돌릴 수도 있다.
+      2. 현재 상태를 한눈에 볼 수 있다.
+      3. 지금까지 어떠한 변화가 있었는지 볼 수 있다.
+      4. 특정 시점으로 상태를 되돌릴 수도 있다.
     6. 이미 사용중인 프로젝트가 많다.
 
   2. 언제 써야하는가 ?
