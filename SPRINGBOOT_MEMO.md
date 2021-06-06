@@ -19,16 +19,19 @@
     // 단순히 실행되며, 프로덕션 제품 수준으 ㅣ스프링 기반 어플리케이션을 쉽게 만들 수 있다.
     // Spring 구성이 거의 필요하지 않다.
     // java -jar로 실행하는 JAVA 어플리케이션을 만들 수 있다.
-
+----------
+----------
 ## *application.properties (main/resource/)
     스프링 부트 프로젝트에 추가 된 라이브러리들의 설정들을 관리하는 곳
         ex) spring.datasource.url=jdbc:mysql://localhost:3306/study?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
             spring.datasource.username=
             spring.datasource.password=
-
+----------
+----------
 ## DI의 기본 핵심은 싱글톤,
     ...
-
+----------
+----------
 ## IoC / DI (의존 관계 주입) 
     IoC (Inversion Of Control) 제어의 역전
         스프링에서는 일반적인 Java 객체를 new로 생성하여 개발자가 관리하는 것이 아닌 Spring Container에 모두 맡긴다.
@@ -40,7 +43,8 @@
             > 코드를 확장하거나 변경 할 때 영향을 최소화 한다 (추상화)
             > 순환참조를 막을 수 있다.
         
-
+----------
+----------
 ## AOP (관점 중심 프로그램)
     관점지향 프로그램
     스프링 어플리케이션은 대부분 특별한 경우를 제외하고, MVC 웹 어플리케이션 많이 사용.
@@ -67,15 +71,15 @@
         @Around
             > Before / After 모두 제어
     로그용으로 사용 할만 한 듯하다. 용도는 이게 다인가 ?
-
+----------
 ----------
 ## PSA (이식 가능한 추상화)
 ----------
-
+----------
 
 ## Validation
     프로그래밍에 있어서 가장 필요한 부분.
-    특히 자바에서는 null 값에 대해서 접근 하력소 할 때 null pointer exception이 발생 함으로, 이러한 부분을 방지하기 위해서 미리 검증하는 과정
+    특히 자바에서는 null 값에 대해서 접근 하려 할 때 null pointer exception이 발생 함으로, 이러한 부분을 방지하기 위해서 미리 검증하는 과정
 > 단순하게 아래와 같은 코드들
 ```
 public void run(String acc, String pw) {
@@ -128,6 +132,10 @@ public String getName() {
     return name;
 }
 ```
+> Custom Validation
+
+![](image/2021-06-06-15-54-03.png)
+
 ----------
 ----------
 ### 기타
@@ -136,14 +144,15 @@ public String getName() {
     터미널에서 ./gradlew bootRun 으로 서버 실행
 
 ----------
-
+----------
 ## JPA
     ORM ( Object Relational Mapping )으로, RDB 데이터베이스의 정보를 객체지향으로 손쉽게
         활용 할 수 있도록 도와 주는 도구.
     Object(자바객체)와 Relation(관계형 데이터베이스) 둘 간의 맵핑을 통해서 보다
         손쉽게 적용 할 수 있는 기술을 제공.
     또한 쿼리에 집중하기 보다는 객체에 집중 함으로써 조금 더 프로그래밍 적으로 많이 활용 할 수 있다.
-
+----------
+----------
 ### Entity
     JPA에서는 테이블을 자동으로 생성해주는 기능 존재.
     DB TABLE === JPA ENTITY
@@ -187,15 +196,16 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
                 @ManyToOne
                 private One one;
 ```
-
-
+----------
+----------
 
 # TDD (Test Driven Development)
 ```
 ...
 ```
     
-
+----------
+----------
 ## @Annotation
 > Lombok
 
@@ -287,7 +297,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
 ...
 ```
 
-
+----------
 ----------
 
 # todo-server
@@ -338,6 +348,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
         public class TodoController {
             private final TodoService todoService;
 ----------
+----------
     TodoServerApplication
         @SpringBootApplication
         public class TodoServerApplication {
@@ -346,6 +357,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
                 SpringApplication.run(TodoServerApplication.class, args);
             }
         }
+----------
 ----------
     Test 코드 작성
     // Mock 사용 이유
@@ -376,7 +388,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
 
                 private TodoEntity expected;
 ----------
-
+----------
 
 # admin 페이지 만들기
     gradle 설정 (build.gradle)
@@ -437,7 +449,8 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
         8. 7번의 결과물을 UserOrderInfoApiResponse(유저 주문정보)의 userApiResponse에 담는다.
         
         9. Header를 통해 8번을 response 시킨다.
-
+----------
+----------
 # bootstudy 3 레스토랑 예약 백엔드
         디렉토리를 하나 만들어서 ( ex: moonkyung-backend )
             백엔드 관련 소스 이동 ( src, build.gradle 등 )
