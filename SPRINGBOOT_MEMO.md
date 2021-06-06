@@ -74,9 +74,61 @@
 
 
 ## Validation
-    
+    프로그래밍에 있어서 가장 필요한 부분.
+    특히 자바에서는 null 값에 대해서 접근 하력소 할 때 null pointer exception이 발생 함으로, 이러한 부분을 방지하기 위해서 미리 검증하는 과정
+> 단순하게 아래와 같은 코드들
+```
+public void run(String acc, String pw) {
+    if(acc == null || pw == null){
+        return
+    }
+    // 정상 Logic
+}
+```
+1. 검증해야 할 값이 많은 경우 코드의 길이가 길어진다.
+2. 구현에 따라서 달라 질 수 있지만 Service Logic과의 분리가 필요하다.
+3. 흩어져 있는 경우 어디에서 검증을 하는지 알기 어려우며, 재사용의 한계가 있다.
+4. 구현에 따라 달라 질 수 있지만, 검증 Logic이 변경되는 경우 테스트 코드 등
+    참조하는 클래스에서 Logic이 변경되어야 하는 부분이 발생 할 수 있다.
+> 참고용 https://beanvalidation.org/2.0-jsr380/
 
+> 관련 annotation
+> 
+![](image/2021-06-06-14-41-07.png)
+> build.gradle 디펜던시 추가
+```
+implementation 'org.springframework.boot:spring-boot-starter-validation'
+```
+```
+@Valid @RequestBody User user
+validation이 필요한곳엔 @Valid 어노테이션을 추가한다.
+```
+> 휴대폰 번호 정규식 및 정규식 어노테이션
+```
+"^\\d{2,3}-\\d{3,4}-\\d{4}$"
 
+ @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
+    private String phoneNumber;
+```
+> 모든 Validation 어노테이션에는 message 속성을 가지고 있다.
+```
+@NotBlank
+private String name;
+
+@Max(value = 100)
+private int age;
+
+@Email(message = "이메일 양식이 올바르지 않습니다.")
+private String email;
+
+@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxx(x)-xxxx")
+private String phoneNumber;
+
+public String getName() {
+    return name;
+}
+```
+----------
 ----------
 ### 기타
     포트 변경 - application.properties 
@@ -91,26 +143,28 @@
     Object(자바객체)와 Relation(관계형 데이터베이스) 둘 간의 맵핑을 통해서 보다
         손쉽게 적용 할 수 있는 기술을 제공.
     또한 쿼리에 집중하기 보다는 객체에 집중 함으로써 조금 더 프로그래밍 적으로 많이 활용 할 수 있다.
-˚
-    Entity
-        JPA에서는 테이블을 자동으로 생성해주는 기능 존재.
+
+### Entity
+    JPA에서는 테이블을 자동으로 생성해주는 기능 존재.
     DB TABLE === JPA ENTITY
-
-    연관 관계 설정
-        관계     /   Annotation
-        일대일   /   @OneToOne
-        일대다   /   @OneToMany
-        다대일   /   @ManyToOne
-        다대다   /   @ManyToMany
-        Long이 아니라 객체로 연결한다.
-    
-    FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
+```
+연관 관계 설정
+    관계     /   Annotation
+    일대일   /   @OneToOne
+    일대다   /   @OneToMany
+    다대일   /   @ManyToOne
+    다대다   /   @ManyToMany
+    Long이 아니라 객체로 연결한다.
+```
+```
+FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
     // LAZY = select * from ITEM where id = ?
-        // 변수에 대해서 겟 메소드를 호출 하지 않는 이상 연관 관계가 설정 된 테이블에 대해서 셀렉하지 않겠다.
+    // 변수에 대해서 겟 메소드를 호출 하지 않는 이상 연관 관계가 설정 된 테이블에 대해서 셀렉하지 않겠다.
     // EAGER = JOIN >> item.id = orderDetail.id
-        // 즉시 모든 것을 다 로딩 하겠다, 연관 관계가 설정 된 모든 테이블에 대해 조인이 일어난다.
-        // 1 : 1(@OneToOne)이나 @ManyToOne에 대해서 한건만 존재할 때 사용
-
+    // 즉시 모든 것을 다 로딩 하겠다, 연관 관계가 설정 된 모든 테이블에 대해 조인이 일어난다.
+    // 1 : 1(@OneToOne)이나 @ManyToOne에 대해서 한건만 존재할 때 사용
+```
+```
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
         cascade 폭포수? 영속성을 함께 관리하겠다 라는 의미.
         CascadeType.ALL -> 전체를 다 적용
@@ -132,88 +186,106 @@
                 private List<Many> manyList;
                 @ManyToOne
                 private One one;
-
+```
 
 
 
 # TDD (Test Driven Development)
+```
+...
+```
     
 
 ## @Annotation
-    > Lombok
-        // 롬복은 플러그인도 설치해야 한다.
-        // 설치 후 활성화 까지. (컴파일러 - Annotation Processor)
-        @Data
-            자동으로 기본 생성자와, 게터세터 등 다양한 메소드 (재정의도) 생성해준다.
-            인텔리제이에서 Structure 탭을 보면 @Data 어노테이션 추가시의 마법을 볼 수 있음.
+> Lombok
 
-        @Table
-            실제 DB테이블의 이름을 명시 (테이블명과 엔티티명이 동일하면 선언하지 않아도 됨.)
-        @Entity
-            해당 클래스가 Entity임을 명시
-            Jpadml Entity 및 column을 자동으로 camelCase로 DB의 snake_case에 매핑 해준다.
-            @Id
-                Index primary key를 명시
-            @GeneratedValue
-                Primary key 식별키의 전략 설정
-            @Column
-                실제 DB Column의 이름을 명시
+```
+// 롬복은 플러그인도 설치해야 한다.
+// 설치 후 활성화 까지. (컴파일러 - Annotation Processor)
+@Data
+    자동으로 기본 생성자와, 게터세터 등 다양한 메소드 (재정의도) 생성해준다.
+    인텔리제이에서 Structure 탭을 보면 @Data 어노테이션 추가시의 마법을 볼 수 있음.
 
-        @NoArgsConstructor
-            기본 생성자를 생성해주는 어노테이션
-        @AllArgsConstructor
-            모든 아규먼트를 가지는 변수에 대해서 생성자를 추가
-            생성자 자동 생성 어노테이션!
-        @RequiredArgsConstructor
-            @NonNull과 함께 사용한다.
-                > 그러나 Builder가 있는 이상 무쓸모로 느껴진다.
+@Table
+    실제 DB테이블의 이름을 명시 (테이블명과 엔티티명이 동일하면 선언하지 않아도 됨.)
+@Entity
+    해당 클래스가 Entity임을 명시
+    Jpadml Entity 및 column을 자동으로 camelCase로 DB의 snake_case에 매핑 해준다.
+    @Id
+        Index primary key를 명시
+    @GeneratedValue
+        Primary key 식별키의 전략 설정
+    @Column
+        실제 DB Column의 이름을 명시
 
-        @ToString
-            @Data로 생성된 투스트링을 제외한다.
-            ex) @ToString(exclude = {"필드1", "필드2"})
-        @Builder
+@NoArgsConstructor
+    기본 생성자를 생성해주는 어노테이션
+@AllArgsConstructor
+    모든 아규먼트를 가지는 변수에 대해서 생성자를 추가
+    생성자 자동 생성 어노테이션!
+@RequiredArgsConstructor
+    @NonNull과 함께 사용한다.
+        > 그러나 Builder가 있는 이상 무쓸모로 느껴진다.
 
-    @Accessors(chain = true)
-        > 체이닝하여 객체를 셋 할 수 있음
-            ex) User user =  new User().setAccount("아이디").setEmail("이메일");
+@ToString
+    @Data로 생성된 투스트링을 제외한다.
+    ex) @ToString(exclude = {"필드1", "필드2"})
+@Builder
+```
+```
+@Accessors(chain = true)
+    > 체이닝하여 객체를 셋 할 수 있음
+        ex) User user =  new User().setAccount("아이디").setEmail("이메일");
+```
+```
+@Repository
+    따로 쿼리문을 작성하지 않아도 기본적인 CRUD 내장
+    @Repository interface UserRepository extends JpaRepository<User, Long>{}
+        > 제네릭으로 연결할 엔티티와, 키의 타입을 선언한다.
+```
+```
+@EnableJpaAuditing
+    Jpa 감시자 활성
+@EntityListeners(AuditingEntityListener.class)
+    Jpa Entity에 이벤트가 발생할 때 콜백을 처리하고 코드를 실행 하는
+```
+```
+@JsonProperty
+    제이슨 형태를 만들 때 사용
+    api 작성시 snake_case를 많이 사용한다. (전문을 주고 받을때)
+        ex) @JsonProperty("snake_case")
+        스프링부트는 application.properties 파일에
+            spring.jackson.property-naming-strategy=SNAKE_CASE
+            를 해주면 간단하다.
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
+```
+```
+@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 15) Pageable pageable
+    sort > id를 가지고 order by
+    direction > asc 로 정렬 한다
+    size > 데이터를 15개씩 표시
+```
+```
+@Configuration
 
-    @Repository
-        따로 쿼리문을 작성하지 않아도 기본적인 CRUD 내장
-        @Repository interface UserRepository extends JpaRepository<User, Long>{}
-            > 제네릭으로 연결할 엔티티와, 키의 타입을 선언한다.
+``` 
+```
+@RestController
+    @GetMapping
+    @PostMapping
+    @PatchMapping
+    @DeleteMapping
+```
+```
+@CrossOrigin
+...
+```
 
-    @EnableJpaAuditing
-        Jpa 감시자 활성
-    @EntityListeners(AuditingEntityListener.class)
-        Jpa Entity에 이벤트가 발생할 때 콜백을 처리하고 코드를 실행 하는
-
-    @JsonProperty
-        제이슨 형태를 만들 때 사용
-        api 작성시 snake_case를 많이 사용한다. (전문을 주고 받을때)
-            ex) @JsonProperty("snake_case")
-            스프링부트는 application.properties 파일에
-                spring.jackson.property-naming-strategy=SNAKE_CASE
-                를 해주면 간단하다.
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
-
-    @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 15) Pageable pageable
-        sort > id를 가지고 order by
-        direction > asc 로 정렬 한다
-        size > 데이터를 15개씩 표시
-
-
-    > @Configuration
-    
-    > @RestController
-        @GetMapping
-        @PostMapping
-        @PatchMapping
-        @DeleteMapping
-
-    > @CrossOrigin
-
-    > @PostConstruct(admni service 공부 하면서 추상화 관련 작업할 때 씀)
+```
+@PostConstruct(admni service 공부 하면서 추상화 관련 작업할 때 씀)
+...
+```
 
 
 ----------
@@ -341,25 +413,30 @@
     OrderInfo 로직
         1. id를 통해 유저 객체를 가져오고
         1-1. 유저 객체로 UserApiResponse를 만들어 놓는다.
-        1. 유저의 객체를 가지고 OrderGroup를 담는 orderGroupList를 가져온다.
         
-        2. List로 된 OrderGroupApiResponse를 만드는데,
+        2. 유저의 객체를 가지고 OrderGroup를 담는 orderGroupList를 가져온다.
+        
+        3. List로 된 OrderGroupApiResponse를 만드는데,
+        
         3-1. 가져온 orderGroupList를 stream을 통해 map으로 찾아서
         3-2. OrderGroupApiResponse를 orderGroupApiLogicService를 이용하여 OrderGroupApiResponse 데이터를 가져온다.
-        1. List로 된 ItemApiResponse를 만드는데,
+
+        4. List로 된 ItemApiResponse를 만드는데,
         4-1. orderGroupList의 orderDetailList를 .stream(). map으로 찾는다.
         4-2. map에서 orderDetail 데이터를 찾으면 그 데이터의 아이템을 가져오고(getItem)
         4-3. 그 아이템을 다시 map으로 돌려서 itemApiLogicService를 이용해 ItemApiResponse 데이터를 가져온다.
         4-4. 만들어낸 ItemApiResponse를 Collectors를 이용해 List로 변환 ( collect(Collectors.toList()) )
-        1. 만들어 진 ItemApiResponse(List)를 OrderGroupApiResponse의 itemApiResponseList에 set 시킨다.
+
+        5. 만들어 진 ItemApiResponse(List)를 OrderGroupApiResponse의 itemApiResponseList에 set 시킨다.
         5-1. 5번을 리턴시킨다.
 
-        1. 3 ~ 5번 까지의 과정으로 만들어진 객체를 다시 List에 담는다. (**OrderGroupApiResponseList**).collect(Collectors.toList())
+        6. 3 ~ 5번 까지의 과정으로 만들어진 객체를 다시 List에 담는다. (**OrderGroupApiResponseList**).collect(Collectors.toList())
 
-        2. 6번에서 만든 OrderGroupApiResponseList를 1번에서 만든 userApiResponse의 orderGroupApiResponseList에 SET 시킨다.
+        7. 6번에서 만든 OrderGroupApiResponseList를 1번에서 만든 userApiResponse의 orderGroupApiResponseList에 SET 시킨다.
         
-        3. 7번의 결과물을 UserOrderInfoApiResponse(유저 주문정보)의 userApiResponse에 담는다.
-        4. Header를 통해 8번을 response 시킨다.
+        8. 7번의 결과물을 UserOrderInfoApiResponse(유저 주문정보)의 userApiResponse에 담는다.
+        
+        9. Header를 통해 8번을 response 시킨다.
 
 # bootstudy 3 레스토랑 예약 백엔드
         디렉토리를 하나 만들어서 ( ex: moonkyung-backend )
