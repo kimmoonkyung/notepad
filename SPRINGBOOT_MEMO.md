@@ -144,6 +144,7 @@ public String getName() {
 3. Client가 200 외에 처리를 하지 못 할 때는 200 을 내려주고 별도의 에러 Message 전달
 
 ![](image/2021-06-06-16-02-51.png)
+> #### [내꺼 참고용 링크](https://github.com/kimmoonkyung/spring-exception)
 
 ----------
 ----------
