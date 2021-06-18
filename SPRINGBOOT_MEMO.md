@@ -156,6 +156,13 @@ Filter란 Web Application에서 관리되는 영역으로, Spring Boot Framework
 인증과 관련된 Logic 들을 해당 Filter에서 처리한다.
 
 이를 선/후 처리 함으로써, Service business logic과 분리 시킨다.
+
+Interceptor 란 Filter와 매우 유사한 형태로 존재하지만, 차이점은 Spring Context에 등록 된다.
+AOP와 유사한 기능을 제공 할 수 있으며,
+
+주로 인증 단계를 처리 하거나, Logging을 하는데에 사용 한다.
+
+이를 선/후 처리 함으로써, Service business logic과 분리 시킨다.
 ```
 
 ----------
