@@ -293,3 +293,8 @@ POJO (Plain Old Java Objcect)
                     POJO를 위배한 것으로 간주.
                 또한 많이 사용하고 있는 @Annotation 설정도 엄연히 POJO라고 볼 수는 없다.
 ```
+
+## Thread
+```
+ThreadPoolTaskExecutor
+```
