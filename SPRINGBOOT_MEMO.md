@@ -81,7 +81,7 @@
     프로그래밍에 있어서 가장 필요한 부분.
     특히 자바에서는 null 값에 대해서 접근 하려 할 때 null pointer exception이 발생 함으로, 이러한 부분을 방지하기 위해서 미리 검증하는 과정
 > 단순하게 아래와 같은 코드들
-```
+```java
 public void run(String acc, String pw) {
     if(acc == null || pw == null){
         return
@@ -103,19 +103,19 @@ public void run(String acc, String pw) {
 ```
 implementation 'org.springframework.boot:spring-boot-starter-validation'
 ```
-```
+```java
 @Valid @RequestBody User user
 validation이 필요한곳엔 @Valid 어노테이션을 추가한다.
 ```
 > 휴대폰 번호 정규식 및 정규식 어노테이션
-```
+```java
 "^\\d{2,3}-\\d{3,4}-\\d{4}$"
 
  @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
     private String phoneNumber;
 ```
 > 모든 Validation 어노테이션에는 message 속성을 가지고 있다.
-```
+```java
 @NotBlank
 private String name;
 
@@ -145,6 +145,18 @@ public String getName() {
 
 ![](image/2021-06-06-16-02-51.png)
 > #### [내꺼 참고용 링크](https://github.com/kimmoonkyung/spring-exception)
+
+## Filter-Interceptor
+```
+Filter란 Web Application에서 관리되는 영역으로, Spring Boot Framework에서 Client로 부터 오는 요청/응답에 대해서 최초/최종 단계의 위치에 존재하며, 이를 통해서 요청/응답의 정보를 변경하거나, Spring에 의해서 데이터가 변환되기 전의 순수한 Client의 요청/응답 값을 확인 할 수 있다.
+
+유일하게 ServletRequest, ServletResponse의 객체를 변환 할 수 있다.
+
+주로 Spring Framewokr에서는 request / response의 Logging 용도로 활용하거나,
+인증과 관련된 Logic 들을 해당 Filter에서 처리한다.
+
+이를 선/후 처리 함으로써, Service business logic과 분리 시킨다.
+```
 
 ----------
 ----------
@@ -183,7 +195,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
     // 즉시 모든 것을 다 로딩 하겠다, 연관 관계가 설정 된 모든 테이블에 대해 조인이 일어난다.
     // 1 : 1(@OneToOne)이나 @ManyToOne에 대해서 한건만 존재할 때 사용
 ```
-```
+```java
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
         cascade 폭포수? 영속성을 함께 관리하겠다 라는 의미.
         CascadeType.ALL -> 전체를 다 적용
