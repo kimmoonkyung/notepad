@@ -1,3 +1,6 @@
+# Spring MVC request life cycle
+> ![](image/2021-06-18-18-32-27.png)
+
 # Spring Boot
     // SpringFramework의 설정이 너무 복잡하고 어려웠기 때문에, 이를 해결하기 위해 만들어짐.
     // SpringBoot가 나오면서 초기 생산성이 획기적으로 좋아짐.
