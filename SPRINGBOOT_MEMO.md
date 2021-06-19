@@ -149,6 +149,9 @@ public String getName() {
 ![](image/2021-06-06-16-02-51.png)
 > #### [내꺼 참고용 링크](https://github.com/kimmoonkyung/spring-exception)
 
+----------
+----------
+
 ## Filter-Interceptor
 ```
 Filter란 Web Application에서 관리되는 영역으로, Spring Boot Framework에서 Client로 부터 오는 요청/응답에 대해서 최초/최종 단계의 위치에 존재하며, 이를 통해서 요청/응답의 정보를 변경하거나, Spring에 의해서 데이터가 변환되기 전의 순수한 Client의 요청/응답 값을 확인 할 수 있다.
@@ -166,6 +169,23 @@ AOP와 유사한 기능을 제공 할 수 있으며,
 주로 인증 단계를 처리 하거나, Logging을 하는데에 사용 한다.
 
 이를 선/후 처리 함으로써, Service business logic과 분리 시킨다.
+```
+----------
+----------
+
+## Server to Server
+> git url
+
+> Rest Template
+```java
+getForObject
+    RestTemplate restTemplate = new RestTemplate();
+    // String result = restTemplate.getForObject(uri, String.class);
+    // getForObject => server의 return값 그대로, "hello server" 문자열이 return 된다.
+getForEntity [ResponseEntity 를 사용한다.]
+    ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
+    log.info("result.getStatusCode: {}", result.getStatusCode()); // 200 OK
+    log.info("result.getBody: {}", result.getBody());   // hello server 
 ```
 
 ----------
