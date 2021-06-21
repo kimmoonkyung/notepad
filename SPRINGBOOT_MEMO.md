@@ -175,6 +175,8 @@ AOP와 유사한 기능을 제공 할 수 있으며,
 
 ## Server to Server
 > git url
+> https://github.com/kimmoonkyung/server-to-server_client
+> https://github.com/kimmoonkyung/server-to-server_server
 
 > Rest Template
 ```java
@@ -252,6 +254,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
 ----------
 
 # TDD (Test Driven Development)
+> JUNIT_MEMO.md
 ```
 ...
 ```
