@@ -218,4 +218,20 @@
                 500     서버 내부 에러 (서버 동작 처리 에러)
                 503     서비스 정지 (점검 등등)
 
+## Swagger
+```
+개발한 REST API를 편하게 문서화 해주고, 이를 통해서 관리 및 제 3의 사용자가 편리하게
+API를 호출해보고 테스트 할 수 있는 프로젝트.
+
+Spring Boot에서는 간단하게 springfox-boot-starter를 gradle dependencies에 추가함으로 사용 할 수 있다.
+
+운영환경과 같은 곳에서는 동작하지 않게 주의해야 한다.
+
+서버 실행 후 
+http://localhost:8080/swagger-ui/
+swagger-ui/ (슬래시를 붙여야 함.)
+```
+> ![](image/2021-06-21-13-29-16.png)
+
+
 ## 
