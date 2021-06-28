@@ -24,13 +24,36 @@
     // 단순히 실행되며, 프로덕션 제품 수준으 ㅣ스프링 기반 어플리케이션을 쉽게 만들 수 있다.
     // Spring 구성이 거의 필요하지 않다.
     // java -jar로 실행하는 JAVA 어플리케이션을 만들 수 있다.
+
 ----------
 ----------
-## *application.properties (main/resource/)
+## *application.properties (main/resource/) or application.yml
     스프링 부트 프로젝트에 추가 된 라이브러리들의 설정들을 관리하는 곳
         ex) spring.datasource.url=jdbc:mysql://localhost:3306/study?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
             spring.datasource.username=
             spring.datasource.password=
+
+### application.yml / application.properties 차이점
+> 동작은 거의 동일하나 yml이 계층적인 구조를 잘 나타낼 수 있어서 많이 사용 한다.
+
+> #### [참고 링크](https://www.baeldung.com/spring-boot-yaml-vs-properties)
+
+#### h2 db 설정 (yml)
+```yaml
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+          format_sql: true
+
+localhost:9090/h2-console
+jdbc url ==> 부트 실행시 로그에 나오는 url
+```
+
 ----------
 ----------
 ## DI의 기본 핵심은 싱글톤,
@@ -299,7 +322,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
     모든 아규먼트를 가지는 변수에 대해서 생성자를 추가
     생성자 자동 생성 어노테이션!
 @RequiredArgsConstructor
-    @NonNull과 함께 사용한다.
+    필드에 @NonNull과 함께 사용한다.
         > 그러나 Builder가 있는 이상 무쓸모로 느껴진다.
 
 @ToString
