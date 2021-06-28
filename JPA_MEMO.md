@@ -142,7 +142,7 @@ Hibernate:
 User(id=3, name=beastkyun, email=beastkyun@nav.com, createdAt=2021-06-28T19:27:23.046, updatedAt=2021-06-28T19:27:23.046)
 User(id=4, name=beastnae, email=beastnae@dau.com, createdAt=2021-06-28T19:27:23.046, updatedAt=2021-06-28T19:27:23.046)
 ```
-* ExampleMatcher는 사용하다보면 뭔가 애매함을 느끼게된다 한다. querydsl을 찾게 된다고 함.
+* ExampleMatcher는 사용하다보면 뭔가 애매함을 느끼게 된다 한다. querydsl을 찾게 된다 함.
 
 
 > flush
