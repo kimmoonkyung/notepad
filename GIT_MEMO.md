@@ -22,4 +22,8 @@
 
 ### 인텔리제이에서 깃헙 저장소 연결
     상단 VCS > 버젼관리로 가져오기 > GitHub에 프로젝트 공유
-    
+
+### 
+```
+Git: There is no tracking information for the current branch.
+```
