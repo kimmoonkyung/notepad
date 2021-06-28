@@ -1,3 +1,5 @@
+# Spring 관련 공부
+
 # Spring MVC request life cycle
 > ![](image/2021-06-18-18-32-27.png)
 
@@ -188,6 +190,14 @@ getForEntity [ResponseEntity 를 사용한다.]
     ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
     log.info("result.getStatusCode: {}", result.getStatusCode()); // 200 OK
     log.info("result.getBody: {}", result.getBody());   // hello server 
+```
+
+## Spring batch
+```
+```
+
+## Spring Cloud
+```
 ```
 
 ----------
