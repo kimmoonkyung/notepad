@@ -144,6 +144,38 @@ User(id=4, name=beastnae, email=beastnae@dau.com, createdAt=2021-06-28T19:27:23.
 ```
 * ExampleMatcher는 사용하다보면 뭔가 애매함을 느끼게 된다 한다. querydsl을 찾게 된다 함.
 
+> update
+```java
+        userRepository.save(User.builder().name("충내르").email("충내@이메일.com").build());
+
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setEmail("noroguy@pornhub.com");
+
+        userRepository.save(user);
+// result
+Hibernate: 
+    select
+        user0_.id as id1_0_0_,
+        user0_.created_at as created_2_0_0_,
+        user0_.email as email3_0_0_,
+        user0_.name as name4_0_0_,
+        user0_.updated_at as updated_5_0_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id=?
+Hibernate: 
+    update
+        user 
+    set
+        created_at=?,
+        email=?,
+        name=?,
+        updated_at=? 
+    where
+        id=?
+
+```
 
 > flush
 ```java
