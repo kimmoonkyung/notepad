@@ -1,5 +1,13 @@
 # JPA
 
+## 각종 메소드 (crud)
+### save
+> ![](image/2021-07-01-15-10-38.png)
+> isNew를 통해 객체가 없으면 (isNew => getId 가 null 이면 true 리턴)
+> persist(인서트)를하고 
+> 객체가 있으면 merge(update를 실행한다.)
+
+
 ## 기본 사용법
 > findAll(Sort)
 ```java
@@ -183,15 +191,6 @@ Hibernate:
 ```java
 
 ```
-
-
-## 각종 메소드 (crud)
-
-### save
-> ![](image/2021-07-01-15-10-38.png)
-> isNew를 통해 객체가 없으면 (isNew => getId 가 null 이면 true 리턴)
-> persist(인서트)를하고 
-> 객체가 있으면 merge(update를 실행한다.)
 
 
 ## 쿼리 메소드 활용
@@ -611,4 +610,52 @@ Hibernate:
     where
         user0_.name=?
 >>> findByNameWithPaging page 2p : [User(id=5, name=mxxnkyung, email=mxxnkyung@gmail.com, createdAt=2021-07-01T18:17:04.475, updatedAt=2021-07-01T18:17:04.475, address=[])]
+```
+
+## @Enitity (Entity 객체)
+```
+    엔티티 객체는 PK(@Id)를 지정해야한다.
+```
+> ### @GenerationValue
+```java
+public enum GenerationType { 
+    TABLE,      // DB 종류에 상관 없이 Id값을 관리하는 별도의 테이블을 만들어두고 그 테이블에서 Id값을 추출하여 사용
+    SEQUENCE,   // Oracle, PostgreSql 등에서 사용하게 됨.
+    IDENTITY,   // 일반적으로 MySql(MariaDB)에서 많이 사용하는 전략. 특징: 이가 빠진것 처럼 특정 값이 비는 현상이 있다.
+    AUTO        // Default, 각 DB에 적합한 값을 자동으로 넘겨줌.
+}
+```
+
+### @Table
+```
+속성
+name
+indexes (@Index)
+uniqueConstraints (@UniqueConstraint)
+```
+
+### @Column
+```
+속성
+name
+nullable
+unique
+length
+insertable // false => 인서트시 제외
+updatable // false => 업데이트시 제외
+```
+
+### @Transient
+```
+db에 반영하지 않고 그냥 사용하고 싶은, 테스트 데이터 성격의. 객체에서 따로 쓸 데이터.
+
+영속성 처리에서 제외가 되고, Db에 반영 되지 않고
+해당 객체와 생명주기를 같이하는 값이 된다.
+```
+
+### @Enumerated
+```
+속성
+value = EnumType.STRING / ORDINAL 등
+ORDINAL을 사용하면 잠재적 버그가 발생 한다.
 ```
