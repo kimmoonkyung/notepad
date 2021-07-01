@@ -384,3 +384,107 @@ Hibernate:
         user0_.id>=? 
         and user0_.id<=?
 ```
+
+### null
+> #### is not null
+```java
+List<User> findByIdIsNotNull();
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id is not null
+```
+> #### is not empty
+```java
+List<User> findByIdIsNotEmpty();
+```
+```s
+error
+IsEmpty / IsNotEmpty can only be used on collection properties!
+IsEmpty / IsNotEmpty 는 컬렉션 프로퍼티에서만 사용할 수 있다.
+```
+```java
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Address> address;
+    
+    List<User> findByAddressIsNotEmpty();
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        exists (
+            select
+                address2_.id 
+            from
+                user_address address1_,
+                address address2_ 
+            where
+                user0_.id=address1_.user_id 
+                and address1_.address_id=address2_.id
+        )
+>>> findByAddressIsNotEmpty : []
+```
+
+> ### In
+```java
+    List<User> findByNameIn(List<String> names);
+    // Iterator타입인 List가 들어가고 find할 타입이 제네릭에 들어간다. (여기선 Name)
+    System.out.println(">>> findByNameIn : " + userRepository.findByNameIn(Lists.newArrayList("mxxnkyung", "norotoo")));
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        user0_.name in (
+            ? , ?
+        )
+```
+
+> ### Starting With / Ending With / contains ( like 검색 제공, 문자열에 대한 쿼리로 동작)
+```java
+    List<User> findByNameStartingWith(String name); // 앞 => searchKeyword%
+    List<User> findByNameEndingWith(String name); // 뒤 => %searchKeyword
+    List<User> findByNameContains(String name); // 중간 => %searchKeyword%%
+
+    List<User> findByNameLike(String name); // 매개변수에 %%를 사용한다. 가독성을 해침
+
+        System.out.println(">>> findByStartingWith : " + userRepository.findByNameStartingWith("beast"));
+        System.out.println(">>> findByEndingWith : " + userRepository.findByNameEndingWith("yun"));
+        System.out.println(">>> findByContains : " + userRepository.findByNameContains("xx"));
+
+        System.out.println(">>> findByNameLike : " + userRepository.findByNameLike("%xx%") );
+```
+
+> ### Is
+```
+Is는
+Is, Equals (or no keyWord) 면 Is와 동일하게 본다.
+    ex) 이 친구들은 같은 친구들이다.
+        Set<User> findUserByNameIs(String name);
+        Set<User> findUserByName(String name);
+        Set<User> findUserByNameEquals(String name);
+```
