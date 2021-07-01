@@ -224,7 +224,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         System.out.println(">>> findSomethingByEmail : " + userRepository.findSomethingByEmail("mxxnkyung@gmail.com"));
 ```
 
-> ### find Top/First 메소드
+> ### find Top/First 메소드 ( limit )
 ```sql
 Hibernate: 
     select
@@ -487,4 +487,128 @@ Is, Equals (or no keyWord) 면 Is와 동일하게 본다.
         Set<User> findUserByNameIs(String name);
         Set<User> findUserByName(String name);
         Set<User> findUserByNameEquals(String name);
+```
+
+### Sort
+> #### Order by .. 
+```java
+List<User> findTopByNameOrderByIdDesc(String name);
+List<User> findFirstByNameOrderByIdDescEmailAsc(String name);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        user0_.name=? 
+    order by
+        user0_.id desc limit ?
+
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        user0_.name=? 
+    order by
+        user0_.id desc,
+        user0_.email asc limit ?
+```
+> #### PagingAndSortingRepository Sort
+```java
+List<User> findFirstByName(String name, Sort sort);
+    System.out.println(">>> findFirstByNameWithSortParams : " + userRepository.findFirstByName("mxxnkyung", Sort.by(Sort.Order.desc("id"))));
+
+Sort.by는 Order를 arr로 받을 수 있다.
+userRepository.findFirstByName("mxxnkyung", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email")));
+    따라서 이렇게도 사용이 가능하다.
+
+// result
+// List<User> findTopByNameOrderByIdDesc(String name); 와 같은 쿼리 도출
+```
+
+### Pageable
+```java
+Page<User> findByName(String name, Pageable pageable);
+    System.out.println(">>> findByNameWithPaging page 1p : " + userRepository.findByName("mxxnkyung", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+    System.out.println(">>> findByNameWithPaging page 2p : " + userRepository.findByName("mxxnkyung", PageRequest.of(1, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        user0_.name=? 
+    order by
+        user0_.id desc limit ?
+Hibernate: 
+    select
+        address0_.user_id as user_id1_2_0_,
+        address0_.address_id as address_2_2_0_,
+        address1_.id as id1_0_1_ 
+    from
+        user_address address0_ 
+    inner join
+        address address1_ 
+            on address0_.address_id=address1_.id 
+    where
+        address0_.user_id=?
+Hibernate: 
+    select
+        count(user0_.id) as col_0_0_ 
+    from
+        user user0_ 
+    where
+        user0_.name=?
+>>> findByNameWithPaging page 1p : [User(id=6, name=mxxnkyung, email=mxxnkyung@naver.com, createdAt=2021-07-01T18:17:04.475, updatedAt=2021-07-01T18:17:04.475, address=[])]
+Hibernate: 
+    select
+        user0_.id as id1_1_,
+        user0_.created_at as created_2_1_,
+        user0_.email as email3_1_,
+        user0_.name as name4_1_,
+        user0_.updated_at as updated_5_1_ 
+    from
+        user user0_ 
+    where
+        user0_.name=? 
+    order by
+        user0_.id desc limit ? offset ?
+Hibernate: 
+    select
+        address0_.user_id as user_id1_2_0_,
+        address0_.address_id as address_2_2_0_,
+        address1_.id as id1_0_1_ 
+    from
+        user_address address0_ 
+    inner join
+        address address1_ 
+            on address0_.address_id=address1_.id 
+    where
+        address0_.user_id=?
+Hibernate: 
+    select
+        count(user0_.id) as col_0_0_ 
+    from
+        user user0_ 
+    where
+        user0_.name=?
+>>> findByNameWithPaging page 2p : [User(id=5, name=mxxnkyung, email=mxxnkyung@gmail.com, createdAt=2021-07-01T18:17:04.475, updatedAt=2021-07-01T18:17:04.475, address=[])]
 ```
