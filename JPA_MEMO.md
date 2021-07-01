@@ -1,4 +1,6 @@
 # JPA
+
+## 기본 사용법
 > findAll(Sort)
 ```java
 // 이름의 역순으로 리스트를 뽑아온다.
@@ -183,3 +185,202 @@ Hibernate:
 ```
 
 
+## 각종 메소드 (crud)
+
+### save
+> ![](image/2021-07-01-15-10-38.png)
+> isNew를 통해 객체가 없으면 (isNew => getId 가 null 이면 true 리턴)
+> persist(인서트)를하고 
+> 객체가 있으면 merge(update를 실행한다.)
+
+
+## 쿼리 메소드 활용
+> ### 객체로 찾는
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByName(String name);
+}
+// 이 경우, 주 키가 아닌 name으로 찾고 있기 때문에 결과가 2개 이상일 경우 에러가 발생한다.
+// 유저 단일 객체로 리턴을 해야한다.
+query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2
+```
+
+> ### List로 찾는 
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByName(String name);
+}
+```
+
+> ### 같은 결과를 도출 한다. (가독성 좋은 코드로 작성하자)
+```java
+        System.out.println(">>> findByEmail : " + userRepository.findByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> getByEmail : " + userRepository.getByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> readByEmail : " + userRepository.readByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> queryByEmail : " + userRepository.queryByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> searchByEmail : " + userRepository.searchByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> streamByEmail : " + userRepository.streamByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> findUserByEmail : " + userRepository.findUserByEmail("mxxnkyung@gmail.com"));
+        System.out.println(">>> findSomethingByEmail : " + userRepository.findSomethingByEmail("mxxnkyung@gmail.com"));
+```
+
+> ### find Top/First 메소드
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.name=? limit ?
+-- where 절에 limit 조건이 추가된다.
+```
+> #### Last 같은 접두어는 인식하지 않는다.
+
+> ### And 메소드
+```java
+List<User> findByEmailAndName(String email, String name);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.email=? 
+        and user0_.name=?
+```
+
+> ### Or 메소드
+```java
+List<User> findByEmailOrName(String email, String name);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.email=? 
+        or user0_.name=?
+```
+### 시간 비교하는 조건
+#### After / Before (시간에 대한 조건)
+```java
+List<User> findByCreatedAtAfter(LocalDateTime yesterDay);
+
+// UserRepositoryTest.java
+System.out.println(">>> findByCreatedAtAfter : " + userRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)));
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.created_at > ?
+```
+
+#### GreaterThan (시간 비교시 After 와 같은 결과 도출)
+```java
+List<User> findByCreatedAtGreaterThan(LocalDateTime yesterday);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.created_at>?
+```
+#### GreaterThanEqual ( >= / <= ) *After와 Before는 Equal을 포함하지 않는다.
+```java
+List<User> findByCreatedAtGreaterThanEqual(LocalDateTime yesterday);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.created_at >= ?
+```
+
+#### Between
+```java
+List<User> findByCreatedAtBetween(LocalDateTime yesterday, LocalDateTime tomorrow);
+List<User> findByIdBetween(Long id1, Long id2);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.created_at between ? and ?
+
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id between ? and ?
+```
+
+#### find By Id Greater Than Equal And Id Less Than Equal
+```java
+List<User> findByIdGreaterThanEqualAndIdLessThanEqual(Long id1, Long id2);
+```
+```sql
+Hibernate: 
+    select
+        user0_.id as id1_0_,
+        user0_.created_at as created_2_0_,
+        user0_.email as email3_0_,
+        user0_.name as name4_0_,
+        user0_.updated_at as updated_5_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id>=? 
+        and user0_.id<=?
+```
