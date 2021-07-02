@@ -659,3 +659,16 @@ db에 반영하지 않고 그냥 사용하고 싶은, 테스트 데이터 성격
 value = EnumType.STRING / ORDINAL 등
 ORDINAL을 사용하면 잠재적 버그가 발생 한다.
 ```
+
+## Entity Listener
+```java
+어노테이션
+    @PrePersist     // insert 호출 되기 전에
+    @PreUpdate      // merge가 호출 되기 전에
+    @PreRemove      // delete가 호출 되기 전
+
+    @PostPersist    // insert 호출 된 후에
+    @PostUpdate     // merge가 호출 된 후에
+    @PostRemove     // delete가 호출 된 후에
+    @PostLoad       // select가 호출 된 후에.
+```
