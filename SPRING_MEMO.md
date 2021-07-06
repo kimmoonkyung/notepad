@@ -217,10 +217,12 @@ getForEntity [ResponseEntity 를 사용한다.]
 
 ## Spring batch
 ```
+...
 ```
 
 ## Spring Cloud
 ```
+...
 ```
 
 ----------
