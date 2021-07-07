@@ -649,7 +649,7 @@ updatable // false => 업데이트시 제외
 ```
 db에 반영하지 않고 그냥 사용하고 싶은, 테스트 데이터 성격의. 객체에서 따로 쓸 데이터.
 
-영속성 처리에서 제외가 되고, Db에 반영 되지 않고
+영속성 처리에서 제외가 되고, Db에 반영 되지 않으며
 해당 객체와 생명주기를 같이하는 값이 된다.
 ```
 
@@ -660,7 +660,18 @@ value = EnumType.STRING / ORDINAL 등
 ORDINAL을 사용하면 잠재적 버그가 발생 한다.
 ```
 
-## Entity Listener
+## Entity Listener ( like SQL Trigger )
+> Entity Listener는 SpringBean을 주입 받지 못 한다.
+> 
+> ex) 
+> ```java
+> @Component
+> public class UserEntityListener {
+>     @Autowired
+>     private UserHistoryRepository userHistoryRepository;
+>  // 주입 못 받음 null pointer exception
+> ``` 
+
 ```java
 어노테이션
     @PrePersist     // insert 호출 되기 전에
@@ -672,3 +683,11 @@ ORDINAL을 사용하면 잠재적 버그가 발생 한다.
     @PostRemove     // delete가 호출 된 후에
     @PostLoad       // select가 호출 된 후에.
 ```
+
+
+## 연관관계
+
+### 1:1 연관관계
+### 1:N 연관관계
+### N:1 연관관계
+### N:N 연관관계
