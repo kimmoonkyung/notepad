@@ -689,6 +689,13 @@ ORDINAL을 사용하면 잠재적 버그가 발생 한다.
 > ![](image/2021-07-17-18-51-16.png)
 
 ### 1:1 연관관계
+```java
+    @OneToOne(optional = false) // 반드시 존재하는 값이 됨. book은 절대 null을 허용 하지 않겠다. not null, left outer join -> inner join
+    private Book book;
+
+@ToString.Exclude
+// 엔티티 릴레이션을 사용하는 경우에 투스트링 같은 메소드가 순환참조에 걸리게 된다.
+```
 ### 1:N 연관관계
 ### N:1 연관관계
 ### N:N 연관관계
