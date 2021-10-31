@@ -326,6 +326,7 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
 @RequiredArgsConstructor
     필드에 @NonNull과 함께 사용한다.
         > 그러나 Builder가 있는 이상 무쓸모로 느껴진다.
+        > 순환 참조 방지를 위해서 쓰자.
 
 @ToString
     @Data로 생성된 투스트링을 제외한다.
