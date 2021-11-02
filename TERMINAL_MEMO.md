@@ -184,3 +184,7 @@
     alias vi="nvim"
     alias vimdiff="nvim -d"
     export EDITOR=/usr/local/bin/nvim
+
+
+  ### mysql 실행
+    mysqld
