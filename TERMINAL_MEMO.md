@@ -186,5 +186,8 @@
     export EDITOR=/usr/local/bin/nvim
 
 
-  ### mysql 실행
+  ### mysql 실행 및 중지
     mysqld
+        kill -9 pid
+    mysql.server start
+    mysql.server stop
