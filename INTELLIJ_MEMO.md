@@ -92,7 +92,7 @@
 ### 구문 완성
     [ Shift + CMD + ENTER ] / window [ shift + ctrl + enter ]
 
-### Run anything
+### Run anything (무엇이든 실행)
     [ Ctrl + Ctrl ] / window [ ctrl + ctrl ]
 
 ### 라인 수정
@@ -131,6 +131,9 @@
 
 ### 이전/다음 탭 선택
     CMD + SHIFT + [, ] 
+
+### 이전/다음 메소드로 커서 이동
+    CTRL + SHIFT + up/down
 
 ### 빨간 전구
     [ Opt + Enter ]
