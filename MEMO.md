@@ -240,3 +240,27 @@ swagger-ui/ (슬래시를 붙여야 함.)
         솔루션 개발 EX) DB 접근 제어, 암호화 등 B2B(회사대회사)
         서비스 개발 EX) B2C(회사대고객)
         SI 개발     EX) 고객사 시스템 중에서 특정 부분에 대하여 개선 등으로 교체 
+
+## DNS 설정 실습
+    spring starter 프로젝트 생성
+    /hello 호출하면 long time no see 응답하는 서버 개발
+    세팅 된 도메인으로 /hello 호출하여 응답 확인
+        vs code 에서 spring boot extension / gradle extenstion 설치
+            윈도우는 hosts 파일 수정
+                127.0.0.1 myapi.test.com
+            맥은 sudo vi /etc/hosts
+                수정 후  dscacheutil -flushcache
+    
+### https 설정 시 유의사항 및 인증서
+    Wild 카드 인증서 *.도메인.com
+        test.feed.mysweethome.com   -> https 지원 불가 
+        test-feed.mysweethome.com
+    
+### Virtual IP
+
+### 읽기요청 부하 분산
+> ![](/image/2022-01-01-20-20-46.png)
+    스케일 업
+    스케일 아웃
+
+### 클러스터링
