@@ -562,3 +562,46 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
             @WebMvcTest
                 @Autowired
                 private Mockmvc mvc
+----------
+----------
+
+# Spring-security
+```
+```
+----------
+----------
+
+# Spring Cloud
+    https://spring.io/cloud
+    https://github.com/thecodinglive/fastcampus-example
+    서버 부하 분산을 위한 네트워크
+    
+    API Gateway
+        Zuul
+        Zuul2   -- Netflix에서 만듦
+
+    Service registry
+        DNS & IP VS Native Cloud
+            네이티브 클라우드로 등록한다는 것은 고정 IP를 가지지 않고 동적으로 네트워크 환경이 변경되어도
+            어플리케이션에 영향 없이 동작하는 것
+        
+        Eureka Server
+        Eureka Client
+    
+    Discovery pattern
+        ![](image/2022-01-12-20-52-38.png)
+    
+    Config server
+        Spring cloud Config
+        Spring cloud event bus
+        Spring Vault(암호화 관련, DB 접속정보 등)
+
+    Distributed Tracing
+        MDC (Mapped Diagnostic Context)
+        Spring Cloud sleuth / zipkin
+
+
+
+
+----------
+----------
