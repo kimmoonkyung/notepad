@@ -574,6 +574,9 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
 # Spring Cloud
     https://spring.io/cloud
     https://github.com/thecodinglive/fastcampus-example
+        아 강사 어버버에 코딩도 없는 강의에 진짜 패스트 캠퍼스 개씨발창쓰레기년들
+            앰창캠퍼스씹새끼들진짜 망해라 제발
+
     서버 부하 분산을 위한 네트워크
     
     API Gateway
@@ -599,9 +602,10 @@ FetchType (LAZY = 지연로딩 , EAGER = 즉시로딩)
     Distributed Tracing
         MDC (Mapped Diagnostic Context)
         Spring Cloud sleuth / zipkin
-
-
-
-
 ----------
 ----------
+
+
+
+-------------
+-------------
