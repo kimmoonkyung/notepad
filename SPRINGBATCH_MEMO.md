@@ -169,5 +169,48 @@ Edit Configurations
     - JobParameters는 외부에서 주입 된 parameter를 관리하는 객체
     - parameter를 JobParametes와 Spring EL(Expression Language)로 접근
         - String parameter = jobParameters.getString(key, defaultValue);
-        - @Value("#{jobParmeters[key]}")
+        - @Value("#{jobParmeters[key]}") // *lobmok Value가 아닌 spring Value
+    
+Edit Configurations
+        Environment
+                Program arguments -> `-chunkSize=20` --job.name=chunkProcessingJob
+```
+
+### JobScope와 StepScope의 이해
+```
+    - @Scope는 어떤 시점에 bean을 생성/소멸 시킬 지 bean의 lifecycle을 설정
+        스프링에서 스코프는 빈의 라이프사이클을 설정할 수 있는 기술
+        스프링에서 기본스코프는 싱글톤 스코프다.
+            싱글톤 스코프의 생성과 소멸 주기는, 애플리케이션이 실행되는 시점에 생성, 종료되는 시점에 소멸
+            
+    - @JobScope는 job 실행 시점에 생성/소멸
+        - Step에 선언
+
+    - @StepScope는 step 실행 시점에 생성/소멸
+        - Tasklet, Chunk(ItemReader, ItemProcessor, ItemWriter) 에 선언
+
+    - Spring의 @Scope과 같은 것
+        - @Scope("job") == @JobScope
+        - @Scope("step") == @StepScope
+
+    - Job과 Step 라이프 사이클에 의해 생성되기 때문에 Thread safe하게 작동
+
+    - @Value("#{jobParameters[key]}")를 사용하기 위해 @JobScope와 @StepScope는 필수
+```
+
+## ItemReader interface 구조
+```
+    - 배치 대상 데이터를 읽기 위한 설정
+        - 파일, DB, 네트워크 등에서 읽기 위함.
+    
+    - Step에 ItemReader는 필수
+    
+    - 기본 제공되는 ItemReader 구현체
+        - file, jdbc, jpa, hibernate, kafka, etc...
+
+    - ItemReader 구현체가 없으면 직접 개발
+
+    - ItemStream은 ExecutionContext로 read, write 정보를 저장
+
+    - CustomItemReader 예제..
 ```
