@@ -145,6 +145,8 @@ Edit Configurations
         이 객체를 통해 데이터를 서로 공유할 수 있다.
 ```
 
+# part 3
+
 ## Task 기반 배치와 Chunk 기반 배치
 ```
     배치를 처리 할 수 있는 방법은 크게 2가지
@@ -212,5 +214,133 @@ Edit Configurations
 
     - ItemStream은 ExecutionContext로 read, write 정보를 저장
 
-    - CustomItemReader 예제..
+    - CustomItemReader 예제.. [part3 패키지]
+        > CustomItemReader
+        > ItemReaderConfiguration
+        > Template 작성 (save as template 검색)
 ```
+> ![](image/2022-01-23-23-14-30.png)
+
+### CSV 파일 데이터 읽기 (FlatFileItemReader)
+```
+    FlatFileItemReader 클래스로 파일에 저장 된 데이터를 읽어 객체에 매핑
+
+    예제 참고 [part3 패키지]
+        > ItemReaderConfiguration
+```
+
+### JDBC 데이터 읽기
+```
+    - Cursor 기반 조회
+        배치 처리가 완료될 때 까지 DB Connection이 연결
+        DB Connection 빈도가 낮아 성능이 좋은 반면, 긴 Connection 유지 시간 필요
+        하나의 Connection에서 처리되기 때문에, Thread Safe 하지 않음
+        모든 결과를 메모리에 할당하기 때문에, 더 많은 메모리를 사용
+
+    - Paging 기반 조회
+        페이징 단위로 DB Connection을 연결
+        DB Connection 빈도가 높아 비교적 성능이 낮은 반면, 짧은 Connection 유지 시간 필요
+        매번 Connection을 하기 때문에 Thread Safe
+        페이징 단위의 결과만 메모리에 할당하기 때문에 비교적 더 적은 메모리를 사용
+```
+> ![](image/2022-02-10-16-10-41.png)
+
+### JPA 데이터 읽기
+```
+    - 4.3+ 에서 Jpa 기반 Cursor ItemReader가 제공 됨.
+    - 기존에는 Jpa는 Paging 기반의 ItemReader만 제공 됨.
+```
+> ![](image/2022-02-10-16-47-10.png)
+
+## ItemWriter interface 구조 이해
+```
+    - ItemWriter는 마지막으로 배치 처리 대상 데이터를 어떻게 처리할 지 결정
+    - Step에서 ItemWriter는 필수
+    - 예를 들면 ItemReader에서 읽은 데이터를 DB에 저장, API로 서버에 요청, 파일에 데이터를 write
+    - 항상 write가 아님
+        데이터를 최종 마무리 하는 것이 ItemWriter
+```
+> ![](image/2022-02-10-17-08-18.png)
+
+### CSV 파일 데이터 쓰기
+```
+    - FlatFileItemWriter는 데이터가 매핑 된 객체를 파일로 write
+    
+    예제 참고 (part 3 ItemWriterConfiguration csvFileWriter)
+```
+
+### JDBC 데이터 쓰기
+```yml
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/batch_study?characterEncoding=UTF-8&serverTimezone=UTC&`rewriteBatchedStatements=true` -- mysql 벌크 인서트 옵션을 사용하기 위한.
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: Qpalzm!2
+  jpa:
+    hibernate:
+      ddl-auto: `update` -- person 테이블이 없는경우엔 생성하고, person entity가 변경 된 경우에는 업데이트한다
+batch:
+  initialize-schema: never
+```
+```
+    - JdbcBatchItemWriter는 jdbc를 사용해 DB에 write
+    - JdbcBatchItemWriter는 bulk insert/update/delete처리
+        insert into person (name, age, address) values (1,2,3), (4,5,6), (7,8,9);
+    - 단건 처리가 아니기 떄문에 비교적 높은 성능
+
+    예제 참고 (part 3 ItemWriterConfiguration jdbcBatchItemWriterStep)
+```
+
+### JPA 데이터 쓰기
+```
+    - JpaItemWriter는 JPA Entity 기반으로 데이터를 DB에 write
+    - Entity를 하나씩 EntityManger.persist 또는 EntityManager.merge로 insert
+        .usePersist(true) 
+
+    예제 참고 (part 3 ItemWriterConfiguration jpaBatchItemWriterStep)
+```
+
+## ItemProcessor interface 구조 이해, 과제 요구 사항 설명
+```
+    - ItemReader에서 읽은 데이터를 가공 또는 Filtering
+    - Step의 ItemProcessor는 optional
+    - ItemProcessor는 필수는 아니지만, 책임 분리를 분리하기 위해 사용
+    - ItemProcessor는 Input을 Output으로 변환하거나 ItemWriter의 실행 여부를 판단 할 수 있도록 filtering 역할을 한다.
+        ItemWriter는 not null만 처리 한다.
+    - 예를 들어 person.id가 짝수인 person만 return 하는 경우
+    - ItemWriter는 5개의 person만 받아 처리
+    
+    예제 참고 (part 3 ItemProcessorConfiguration itemProcessorStep)
+```
+> ![](image/2022-02-10-18-17-33.png)
+
+## CSV 파일 데이터 읽고 MySql DB에 insert 하기
+```
+    - CSV 파일 데이터를 읽어 H2 DB에 데이터 저장하는 배치 개발
+    - Reader
+        100개의 person data를 csv 파일에서 읽는다.
+    - Processor
+        1. allow_duplicate 파라미터로 person.name의 중복 여부 조건을 판단한다.
+        2. `allow_duplicate=true`인 경우 모든 person을 return 한다.
+        3. `allow_duplicate=false 또는 null`인 경우 person.name이 중복 된 데이터는 null로 return 한다.
+        4. 힌트: 중복 체크는 `java.util.Map` 사용
+    - Writer
+        1. 2개의 ItemWriter를 사용해서 Person H2 DB에 저장 후 몇 건 저장 됐는 지 log를 찍는다.
+        2. Person 저장 ItemWriter와 log 출력 ItemWriter
+        3. 힌트: `CompositeItemWriter` 사용
+```
+
+## 테스트 코드 작성하기
+```
+    - JobLauncher는 Job을 실행
+    - JobLauncherTestUtils는 테스트 코드에서 Job과 Step 실행
+    
+    예제참고 (part 3 test/SavePersonConfigurationTest)
+```
+
+
+
+
+# part 4
