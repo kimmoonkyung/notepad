@@ -37,6 +37,9 @@
         [ fn + 위,아래 방향키 ] / window [ page up, down ]
             내 키보드(레오폴드 fc750?) 에서는 [ CMD + home, end ]
 
+### 여러 줄 선택
+    [ Opt, Opt + 위 아래 방향키 ]
+
 ### 자동 인덴트 (탭)
     전체 선택 후
         [ Ctrl + Opt + I ] / window [ ctrl + alt + i ]
