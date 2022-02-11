@@ -316,7 +316,7 @@ batch:
 ```
 > ![](image/2022-02-10-18-17-33.png)
 
-## CSV 파일 데이터 읽고 MySql DB에 insert 하기
+## [과제] CSV 파일 데이터 읽고 MySql DB에 insert 하기
 ```
     - CSV 파일 데이터를 읽어 H2 DB에 데이터 저장하는 배치 개발
     - Reader
@@ -340,7 +340,115 @@ batch:
     예제참고 (part 3 test/SavePersonConfigurationTest)
 ```
 
+## JobExecutionListener, StepExecutionListener 이해
+```
+    - 스프링 배치에서 전 처리, 후 처리를 하는 다양한 종류의 Listener 존재
+        interface 구현
+        @Annotation 정의
+    - Job 실행 전과 후에 실행 할 수 있는 JobExecutionListener
+    - Step 실행 전과 후에 실행 할 수 있는 StepExecutionListener
+```
+> ![](image/2022-02-10-19-31-00.png)
 
+### StepListener 이해
+```
+    - Step에 관련 된 모든 Listener는 StepListener를 상속
+    - StepExecutionListener
+    - SkipListener
+        - onSkipInRead: @OnSkipInRead
+            - ItemReader에서 Skip이 발생한 경우 호출
+        - onSkipInWrite: @OnSkipInWrite
+            - ItemWriter에서 Skip이 발생한 경우 호출
+        - onSkipInProcess: @OnSkipInProcess
+            - ItemProcessor에서 Skip이 발생한 경우 호출
+    - ItemReadListener
+        - beforeRead: @BeforeRead
+            - ItemReader.read() 메소드 호출 전 호출
+        - afterRead: @AfterRead
+            - ItemReader.read() 메소드 호출 후 호출
+        - onReadError: @OnReadError
+            - ItemReader.read() 메소드에서 에러 발생시 호출
+    - ItemProcessListener
+        - beforeProcess: @BeforeProcess
+            - ItemProcess.process() 메소드 호출 전 호출
+        - afterProcess: @AfterProcess
+            - ItemProcess.process() 메소드 호출 후 호출
+        - onProcessError: @OnProcessError
+            - ItemProcess.processs() 메소드에서 에러 발생시 호출
+    - ItemWriteListener
+        - beforeWrite: @BeforeWrite
+            - ItemWriter.write() 메소드 호출 전 호출
+        - afterWrite: @AfterWrite
+            - ItemWriter.write() 메소드 호출 후 호출
+        - onWriteError: @OnWriteError
+            - ItemWriter.write() 메소드에서 에러 발생시 호출
+    - ChunkListener
+        - beforeChunk: @BeforeChunk
+            - chunk 실행 전 호출
+        - afterChunk: @AfterChunk
+            - chunk 실행 후 호출
+        - afterChunkError: @AfterChunkError
+            - chunk 실행 중 에러 발생 시 호출
+```
 
+## skip 예외 처리
+```
+    - step 수행 중 발생한 특정 Exception과 에러 횟수 설정으로 예외처리 설정
+    - skip(NotFoundNameException.class), skipLimit(3)으로 설정 된 경우
+        - NotFoundNameException 발생 3번까지는 에러를 skip한다
+        - NotFoundNameException 발생 4번째는 Job과 Step의 상태는 FAIL로 끝나며 배치가 중지된다
+        - 단 에러가 발생하기 전까지 데이터는 모두 처리 된 상태로 남는다.
+    - Step은 chunk 1개 기준으로 Transaction 동작
+        - 예를 들어 items = 100, chunk.size = 10, 총 chunk 동작 횟수 = 10
+            - chunk 1-9는 정상 처리, chunk 10에서 Exception이 발생한 경우
+                - chunk 1-9에서 처리 된 데이터는 정상 저장되고, Job과 Step의 상태는 FAILED 처리
+        - 배치 재 실행 시 chunk 10 부터 처리할 수 있도록 배치를 만든다.
 
-# part 4
+    - 추가 요구사항 
+        - Person.name이 empty String인 경우 NotFoundNameException 발생
+        - NotFoundNameException이 3번 이상 발생한 경우 step 실패 처리
+    - SkipListener가 실행되는 조건
+        - 에러 발생 횟수가 skipLimit 이하인 경우
+            - skipLimit(2), throw Exception이 3번 발생하면 실행 되지 않는다.
+            - skipLimit(3), throw Exception이 3번 발생하면 실행 된다.
+            - skip 설정 조건에 해당하는 경우에만 실행 된다.
+        - SkipListener는 항상 faultTolerant() 메소드 후에 선언
+```
+
+## retry 예외 처리
+```
+    - Step 수행 중 간헐적으로 Exception 발생 시 재시도(retry) 설정
+        - DB Deadlock, Network timeout 등
+    - retry(NullPointerException.class), retryLimit(3) 으로 설정 된 경우
+        - NotFoundNameException이 발생 한 경우 3번까지 재시도
+    - 더 구체적으로 retry를 정의 하려면 RetryTemplate 이용
+    - 추가 요구사항
+        - NotFoundNameException이 발생하면, 3번 재시도 후 Person.name을 "UNKNOWN"으로 변경
+
+    - RetryListener.open
+        - retrun false인 경우 retry를 시도하지 않음
+    - RetryTemplate.RetryCallback
+    - RetryListener.onError
+        - maxAttempts 설정 값 만큼 반복
+    - RetryTemplate.RecoveryCallback
+        - maxAttempts 반복 후에도 에러가 발생한 경우 실행
+    - RetryListener.close
+```
+> ![](image/2022-02-11-17-05-45.png)
+
+# part 4 회원 등급 프로젝트
+
+## 회원 등급 프로젝트 요구사항
+```
+    - User 등급을 4개로 구분
+        - 일반(NORMAL), 실버(SILVER), 골드(GOLD), VIP
+    - User 등급 상향 조건은 총 주문 금액 기준으로 등급 상향
+        - 200,000원 이상인 경우 실버로 상향
+        - 300,000원 이상인 경우 골드로 상향
+        - 500,000원 이상인 경우 VIP로 상향
+        - 등급 하향은 없음
+    - 총 2개의 Step으로 회원 등급 Job 생성
+        - saveUserStep: User 데이터 저장
+        - userLevelUpStep: User 등급 상향
+    - JobExecutionListener.afterJob 메소드에서 "총 데이터 처리 {}건, 처리 시간: {}millis"와 같은 로그 출력
+```
