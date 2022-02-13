@@ -463,3 +463,10 @@ batch:
             - `2020년_11월_주문_금액.csv` 파일은 2020년 11월 1일~11월30일 주문 통계 내역
     - `date` 파라미터가 없는 경우, orderStatisticsStep은 실행하지 않는다.
 ```
+
+# part 6 성능 개선과 성능 비교
+
+## SaveUserTasklet에서 User 40,000건 저장, Chunk Size는 1,000
+```
+    
+```
