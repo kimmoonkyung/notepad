@@ -475,5 +475,99 @@ batch:
         - 3번씩 실행
         - 환경에 따라 성능이 다를 수 있음
 
+                                        1회                 2회                 3회
+    Simple Step                         8337millis          8184millis          8143millis
+    Async Step                          7943millis          8097millis          8146millis
+    Multi-Thread Step                   5872millis          7126millis          5805millis
+    Partition Step                      6758millis          6937millis          6669millis
+    Async + Partition Step              6705millis          7061millis          6778millis
+    Parallel Step                       8597millis          7948millis          8156millis
+    Partition + Parallel Step           8175millis          6633millis          6656millis
 ```
 > ![](image/2022-02-13-23-16-20.png)
+
+## Async Step 적용하기
+```
+    - ItemProcessor와 ItemWriter를 Async로 실행
+    - java.util.concurrent에서 제공되는 Future 기반 asynchronous (async itemprocessor는 future로 감싼 아웃풋 타입)
+    - Async를 사용하기 위해 spring-batch-integration 필요
+        - build.gradle implementation 'org.springframework.batch:spring-batch-integration'
+        - Application의 SpringApplication.run(SpringBatchApplication.class, args)를
+            - System.exit(SpringApplication.exit(SpringApplication.run(SpringBatchApplication.class, args))); 으로 종료
+                - Async로 하면 종료가 안 될때가 있다함.
+    
+    - 
+```
+```java
+    @Bean
+	@Primary	// 스프링 부트에서는 TaskExecutor가 기본적으로 빈으로 생성 되어있기 때문에, 지금 만드는 TaskExecutor를 기본 빈으로 사용하겠다는 설정
+	TaskExecutor taskExecutor() {
+		// ThreadPoolTaskExecutor 풀안에서 스레드를 미리 생성해놓고 필요할때 미리 꺼내 쓸 수 있기때문에 다른 구현체보다 효율적이다.
+		ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+		taskExecutor.setCorePoolSize(10);
+		taskExecutor.setMaxPoolSize(20);
+		taskExecutor.setThreadNamePrefix("batch-thread-");
+		taskExecutor.initialize();
+		return taskExecutor;
+	}
+```
+> ![](image/2022-02-15-11-28-46.png)
+
+## Multi-Thread Step 적용하기
+```
+    - Async Step은 ItemProcessor와 ItemWriter 기준으로 비동기 처리
+    - Multi-Thread Step은 Chunk 단위로 멀티 스레딩 처리
+    - Thread-Safe 한 ItemReader 필수
+```
+> ![](image/2022-02-15-13-28-09.png)
+
+## Partition Step 적용하기
+```
+    - 하나의 Master 기준으로 여러 Slave Step을 생성해 Step 기준으로 Multi-Thread 처리
+    - 예를 들어
+        - item이 40,000개, Slave Step이 8개면
+        - 40000 / 8 = 5000 이므로 하나의 Slave Step 당 5,000건 씩 나눠서 처리
+    - Slave Step은 각각 하나의 Step으로 동작
+    
+    - @StepScope Proxy
+        - https://jojoldu.tistory.com/132
+```
+> ![](image/2022-02-15-13-36-10.png)
+
+## Parallel Step 적용하기
+```
+    - n개의 Thread가 Step 단위로 동시 실행
+    - Multi-Thread Step은 chunk 단위로 동시 실행했다면, Parallel Step은 step 단위로 동시 실행
+    - 아래 그림을 예로 들면
+        - Job은 FlowStep1과 FlowStep2를 순차 실행
+        - FlowStep2는 Step2와 Step3을 동시 실행
+        - 설정에 따라 FlowStep1과 FlowStep2를 동시 실행도 가능
+
+```
+> ![](image/2022-02-15-15-45-06.png)
+
+# part 7 스프링 배치 설정과 실행
+
+## jar 생성과 실행
+```terminal
+    - 프로젝트 경로에서
+        - ./gradlew clean jar build -x test
+            - `-x test` test는 실행하지 않겠다.
+                - 프로젝트경로/build/libs 에 .jar 파일 생성 됨.
+    
+    - jar 실행
+        - java -jar spring-batch-study-0.0.1-SNAPSHOT.jar --job.name=multiThreadUserJob -date=2022-03 -path=/Users/kimmoonkyung/Documents/spring-batch/
+```
+
+## jenkins scheduler를 이용한 스프링 배치 실행
+```terminal
+    - git init
+        - git remote add origin https://github.com/kimmoonkyung/spring-batch-study
+            - git add .
+                - git cm -m 'test'
+                    - git push origin master
+```
+```jenkins
+도커 젠킨스에서 접근하는 경로와 본인이 접근하는 경로가 다르다.
+그래서 도커 젠킨스 경로와 본인 로컬 경로를 연결하는 설정을 해야함.
+```
