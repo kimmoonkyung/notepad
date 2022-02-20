@@ -244,3 +244,24 @@ docker run -d -p 3000:3000 '경로'
 
 --개인실습 Nginx를 이용한 정적 페이지 서버 만들기 
 부터시작
+
+# DOCKER 삭제
+> curl -O https://raw.githubusercontent.com/docker/toolbox/master/osx/uninstall.sh
+> 
+> 실행 권한
+> 
+> chmod +x uninstall.sh
+> 
+> root 실행
+> 
+> sudo ./uninstall.sh
+------------------------------------------------------------
+
+## DOCKER 실행
+> docker run -d -p 80:80 docker/getting-started
+
+## DOCKER 이미지 실행/정지
+> docker start/stop [docker ps -a 시 NAMES]
+
+## 실행한 이미지 CLI 접속
+> docker exec -it [docker ps 시 CONTAINER ID] /bin/sh
