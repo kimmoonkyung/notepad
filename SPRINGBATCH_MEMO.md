@@ -570,4 +570,8 @@ batch:
 ```jenkins
 도커 젠킨스에서 접근하는 경로와 본인이 접근하는 경로가 다르다.
 그래서 도커 젠킨스 경로와 본인 로컬 경로를 연결하는 설정을 해야함.
+
+    1. docker start jenkins
+    2. docker exec -it [docker ps 시 CONTAINER ID] /bin/sh
+    3. cd /var/jenkins_home/workspace/userJobTest 경로 파일 생성 확인
 ```
