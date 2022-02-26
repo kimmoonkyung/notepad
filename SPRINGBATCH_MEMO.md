@@ -573,5 +573,8 @@ batch:
 
     1. docker start jenkins
     2. docker exec -it [docker ps 시 CONTAINER ID] /bin/sh
-    3. cd /var/jenkins_home/workspace/userJobTest 경로 파일 생성 확인
+    3. build command
+        > ./gradlew clean jar build -x test
+          java -jar spring-batch-study-0.0.1-SNAPSHOT.jar --job.name=userJob -date=2022-06 -path=/var/jenkins_home/workspace/userJobTest/
+    4. cd /var/jenkins_home/workspace/userJobTest 경로 파일 생성 확인
 ```
