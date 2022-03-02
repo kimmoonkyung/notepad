@@ -229,29 +229,28 @@
 ```dart
         body: Container(
           height: 150,
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           child: Row(
-            children: [
-              Image.asset('nochongnae.jpeg', width: 150,),
-              Container(
-                width: 300,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('민주노총내 팝니다', style: TextStyle(fontSize: 30),),
-                    Text('마곡'),
-                    Text('100원'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(Icons.favorite_border),
-                        Text('7'),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+              children: [
+                Image.asset('nochongnae.jpeg', width: 150),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('민주노총내 팝니다', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),),
+                      Text('마곡'),
+                      Text('100원'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(Icons.favorite_border),
+                          Text('7'),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
         )
 ```
