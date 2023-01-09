@@ -278,3 +278,8 @@ swagger-ui/ (슬래시를 붙여야 함.)
 > ![](/image/2022-01-04-21-31-29.png)
 
 ### 분산환경에서 메시지 큐 활용
+
+
+## TOMCAT
+    Servlet Interface(Spec) 구현체
+    Servlet Container 중 하나

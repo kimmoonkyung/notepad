@@ -265,3 +265,6 @@ docker run -d -p 3000:3000 '경로'
 
 ## 실행한 이미지 CLI 접속
 > docker exec -it [docker ps 시 CONTAINER ID] /bin/sh
+
+## docker ps 시
+> c4796470f24c   jenkins/jenkins:lts   "/sbin/tini -- /usr/…"   11 days ago   Up 10 minutes   50000/tcp, 0.0.0.0:8085->8080/tcp   jenkins
